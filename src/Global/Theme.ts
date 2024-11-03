@@ -1,0 +1,31 @@
+export const Theme = {
+  colors: {
+    white: "#ffffff",
+    "gray-light": "#DDDFEB",
+    "gray-light-25": "#E9EAF2",
+    "gray-light-50": "#F0F2FA",
+    "gray-light-100": "#FAFBFF",
+    gray: "#70727F",
+    "gray-25": "#8A8C99",
+    "gray-50": "#A0A3B2",
+    "gray-75": "#B0B2BF",
+    "gray-100": "#C3C6D4",
+    black: "#1E2026",
+    "black-25": "#303237",
+    "black-50": "#3D3E44",
+    "black-100": "#5A5C66",
+  },
+  padding: {
+    sm: "32px 16px",
+    md: "32px 24px",
+    lg: "32px 32px",
+    xl: "58px 72px",
+  },
+  screens: {
+    sm: "420px",
+    md: "768px",
+    lg: "1024px",
+    xl: "1440px",
+    "2xl": "1920px",
+  },
+};
