@@ -18,11 +18,15 @@ export const ButtonGroupForm = ({
   return (
     <S.Container {...rest}>
       <S.Wrapper data-active={btnActiveNumber === 1}>
-        <button onClick={() => setBtnActiveNumber(1)}>Dados básicos</button>
+        <button type="button" onClick={() => setBtnActiveNumber(1)}>
+          Dados básicos
+        </button>
       </S.Wrapper>
 
       <S.Wrapper data-active={btnActiveNumber === 2}>
-        <button onClick={() => setBtnActiveNumber(2)}>Avançado</button>
+        <button type="button" onClick={() => setBtnActiveNumber(2)}>
+          Avançado
+        </button>
       </S.Wrapper>
     </S.Container>
   );

@@ -9,7 +9,7 @@ export const WrapperPage = styled.div`
   width: 100%;
   max-width: ${(props) => props.theme.screens["2xl"]};
   margin: 0 auto;
-  padding: ${(props) => props.theme.padding.sm};
+  padding: 132px 16px;
 
   @media (min-width: ${(props) => props.theme.screens.xl}) {
     padding: 32px 0;
@@ -19,6 +19,9 @@ export const WrapperPage = styled.div`
 export const Header = styled.header`
   background-color: ${(props) => props.theme.colors.white};
   box-shadow: 0px 0px 12px 0px #0271ff1a;
+  position: fixed;
+  width: 100%;
+  z-index: 100;
 `;
 
 export const WrapperHeader = styled.header`

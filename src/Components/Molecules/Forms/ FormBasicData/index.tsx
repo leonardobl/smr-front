@@ -1,5 +1,5 @@
 import { SexoEnum } from "../../../../Enum/sexo";
-import { Button } from "../../../Atoms/Button";
+
 import { Input } from "../../../Atoms/Input";
 import { InputMoney } from "../../../Atoms/InputMoney";
 import { InputRadio } from "../../../Atoms/InputRadio";
@@ -50,24 +50,6 @@ export const FormBasicData = () => {
           placeholder="60"
         />
       </div>
-
-      <S.WrapperButtons>
-        <Button variant="default">Ver resultado</Button>
-        <Button
-          iconleft="/assets/svg/icon-print-blue.svg"
-          variant="blue-light"
-          type="button"
-        >
-          Relatório
-        </Button>
-        <Button
-          variant="blue-light"
-          type="reset"
-          iconleft="/assets/svg/icon-reset-blue.svg"
-        >
-          Reiniciar
-        </Button>
-      </S.WrapperButtons>
     </S.FormBasic>
   );
 };

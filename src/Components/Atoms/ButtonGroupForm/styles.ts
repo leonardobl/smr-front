@@ -15,7 +15,7 @@ export const Wrapper = styled.div`
   > button {
     all: unset;
     transition: all 0.2s ease-in-out;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     line-height: 24px;
     cursor: pointer;
