@@ -9,14 +9,12 @@ import { useHome } from "./useHome";
 import {
   LineChart,
   Line,
-  XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   Legend,
   ResponsiveContainer,
-  Bar,
-  BarChart,
+
   // Rectangle,
 } from "recharts";
 
@@ -65,24 +63,6 @@ const dataLinear = [
   },
 ];
 
-const dataBar = [
-  {
-    uv: 4000,
-    amt: 2400,
-  },
-  {
-    uv: 3000,
-    amt: 2210,
-  },
-  {
-    uv: 2000,
-    amt: 2290,
-  },
-  {
-    uv: 2780,
-    amt: 2000,
-  },
-];
 export const HomeTemplate = () => {
   const { formNumber, setFormNumber } = useHome();
 
