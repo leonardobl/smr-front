@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const FormBasic = styled.form`
   display: grid;
   gap: 32px 0;
+  padding-top: 36px;
 `;
 
 export const WrapperButtons = styled.div`
@@ -10,6 +11,8 @@ export const WrapperButtons = styled.div`
   grid-template-columns: 1fr 1fr;
   gap: 24px;
   grid-template-areas: "btn1 btn1" "btn2 btn3";
+  border-top: 2px solid #dddfeb;
+  padding-top: 24px;
 
   > :nth-child(1) {
     grid-area: btn1;
