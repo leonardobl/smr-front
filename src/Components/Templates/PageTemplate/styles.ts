@@ -9,10 +9,10 @@ export const WrapperPage = styled.div`
   width: 100%;
   max-width: ${(props) => props.theme.screens["2xl"]};
   margin: 0 auto;
-  padding: 132px 16px;
+  padding: 132px 16px 32px;
 
   @media (min-width: ${(props) => props.theme.screens.xl}) {
-    padding: 132px 0;
+    padding: 132px 0 32px;
   }
 `;
 
