@@ -12,7 +12,7 @@ export const WrapperPage = styled.div`
   padding: 132px 16px;
 
   @media (min-width: ${(props) => props.theme.screens.xl}) {
-    padding: 32px 0;
+    padding: 132px 0;
   }
 `;
 

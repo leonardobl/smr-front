@@ -21,6 +21,7 @@ export const Wrapper = styled.div`
     cursor: pointer;
     padding: 18px;
     color: #8a8c99;
+    white-space: nowrap;
   }
 
   &[data-active="true"] {

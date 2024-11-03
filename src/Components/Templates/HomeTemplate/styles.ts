@@ -1,6 +1,26 @@
 import styled from "styled-components";
 
-export const Container = styled.div``;
+export const Container = styled.div`
+  display: grid;
+  gap: 40px;
+
+  @media (min-width: 1024px) {
+    grid-template-columns: 434px 1fr;
+    grid-template-areas: "form chart1" "form chart2";
+
+    > :nth-child(1) {
+      grid-area: form;
+    }
+
+    > :nth-child(2) {
+      grid-area: chart1;
+    }
+
+    > :nth-child(3) {
+      grid-area: chart2;
+    }
+  }
+`;
 
 export const Form = styled.form``;
 
@@ -24,4 +44,12 @@ export const WrapperButtons = styled.div`
   > :nth-child(3) {
     grid-area: btn3;
   }
+`;
+
+export const TitleCard = styled.h2`
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 28px;
+  text-align: left;
+  margin-bottom: 36px;
 `;
