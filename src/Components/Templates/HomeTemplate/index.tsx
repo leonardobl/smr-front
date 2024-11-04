@@ -1,8 +1,6 @@
 import { Button } from "../../Atoms/Button";
 import { ButtonGroupForm } from "../../Atoms/ButtonGroupForm";
 import { Card } from "../../Atoms/Card";
-import { FormBasicData } from "../../Molecules/Forms/ FormBasicData";
-import { FormAdvancedData } from "../../Molecules/Forms/FormAdvancedData";
 import { Table } from "../../Molecules/Table";
 import { TableItem } from "../../Molecules/Table/TableItem";
 import { PageTemplate } from "../PageTemplate";
@@ -19,6 +17,11 @@ import {
 
   // Rectangle,
 } from "recharts";
+import { Input } from "../../Atoms/Input";
+import { InputMoney } from "../../Atoms/InputMoney";
+import { SexoEnum } from "../../../Enum/sexo";
+import { InputRadio } from "../../Atoms/InputRadio";
+import { SimpleSelect } from "../../Atoms/SimpleSelect";
 
 const dataLinear = [
   {
@@ -77,8 +80,95 @@ export const HomeTemplate = () => {
               <ButtonGroupForm getButtonActiveNumber={setFormNumber} />
             </div>
 
-            {formNumber === 1 && <FormBasicData />}
-            {formNumber === 2 && <FormAdvancedData />}
+            {formNumber === 1 && (
+              <S.FormBasic>
+                <div>
+                  <Input label="Nome" placeholder="Digite seu nome" />
+                </div>
+                <div>
+                  <Input label="Data de nascimento" placeholder="00/00/0000" />
+                </div>
+                <div>
+                  <InputRadio
+                    label="Sexo"
+                    values={[SexoEnum.Masculino, SexoEnum.Feminino]}
+                    name="sexo"
+                    onChange={(e) => console.log(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <InputMoney
+                    placeholder="R$ 0,00"
+                    label="Remuneração ativa atual"
+                  />
+                </div>
+                <div>
+                  <InputMoney
+                    placeholder="R$ 0,00"
+                    label="Benefício Especial"
+                  />
+                </div>
+
+                <div>
+                  <SimpleSelect
+                    label="Prazo de recebimento do benefício no RPC"
+                    placeholder={"Selecione um prazo"}
+                  />
+                </div>
+                <div>
+                  <Input
+                    type="number"
+                    label="Idade de ingresso Ente Federativo"
+                    placeholder="30"
+                  />
+                </div>
+                <div>
+                  <Input
+                    type="number"
+                    label="Idade prevista para aposentadoria"
+                    placeholder="60"
+                  />
+                </div>
+              </S.FormBasic>
+            )}
+
+            {formNumber === 2 && (
+              <S.FormAdvancedDataContainer>
+                <div>
+                  <Input label="Taxa de juros anual" />
+                </div>
+                <div>
+                  <Input label="Taxa de contribuição RPPS" />
+                </div>
+                <div>
+                  <Input label="Taxa de contribuição RPC" />
+                </div>
+                <div>
+                  <InputMoney label="Valor do teto do RGPS" />
+                </div>{" "}
+                <div>
+                  <InputMoney label="Salário de contribuição RPC" />
+                </div>{" "}
+                <div>
+                  <InputMoney label="Índice de inflação" />
+                </div>
+                <div>
+                  <Input
+                    type="number"
+                    label="Índice de reajuste do benefício RPC"
+                  />
+                </div>
+                <div>
+                  <Input
+                    type="number"
+                    label="Índice de reajuste do benefício RPPS"
+                  />
+                </div>{" "}
+                <div>
+                  <Input type="number" label="Índice de reajuste paridade" />
+                </div>
+              </S.FormAdvancedDataContainer>
+            )}
 
             <S.WrapperButtons>
               <Button variant="default">Ver resultado</Button>

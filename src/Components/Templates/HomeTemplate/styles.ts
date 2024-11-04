@@ -67,3 +67,15 @@ export const TitleCard = styled.h2`
   text-align: left;
   margin-bottom: 36px;
 `;
+
+export const FormAdvancedDataContainer = styled.form`
+  display: grid;
+  gap: 32px 0;
+  padding-top: 36px;
+`;
+
+export const FormBasic = styled.form`
+  display: grid;
+  gap: 32px 0;
+  padding-top: 36px;
+`;
