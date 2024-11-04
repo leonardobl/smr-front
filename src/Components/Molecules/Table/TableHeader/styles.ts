@@ -12,19 +12,27 @@ export const CustomTableHeader = styled.div<ITableHeaderProps>`
   height: 68px;
 
   h2 {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
-    line-height: 24px;
+
     text-align: left;
     color: #ffffff;
 
     > span {
-      font-size: 14px;
+      font-size: 12px;
       font-weight: 400;
-      line-height: 20px;
+
       text-align: left;
       color: #fff;
       display: block;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 18px;
+
+      > span {
+        font-size: 14px;
+      }
     }
   }
 `;

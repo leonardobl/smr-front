@@ -5,4 +5,8 @@ export const Card = styled.div`
   padding: 16px;
   border-radius: 24px;
   box-shadow: 0px 0px 12px 0px #0271ff1a;
+
+  @media (max-width: 768px) {
+    overflow-x: scroll;
+  }
 `;

@@ -12,10 +12,16 @@ export const TableFooter = styled.div<ITableFooterProps>`
   height: 68px;
 
   > p {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
     line-height: 24px;
     text-align: left;
     color: #002d93;
+  }
+
+  @media (min-width: 1024px) {
+    > p {
+      font-size: 18px;
+    }
   }
 `;

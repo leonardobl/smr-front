@@ -6,7 +6,7 @@ export const FormAdvancedData = () => {
   return (
     <S.FormAdvancedDataContainer>
       <div>
-        <Input label="Taxa de juros anual" />
+        <Input type="number" label="Taxa de juros anual" />
       </div>
       <div>
         <Input label="Taxa de contribuição RPPS" />

@@ -13,9 +13,15 @@ export const CustomTableItem = styled.div<ITableItemProps>`
   }
 
   p {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
     line-height: 20px;
     text-align: left;
+  }
+
+  @media (min-width: 1024px) {
+    p {
+      font-size: 16px;
+    }
   }
 `;
