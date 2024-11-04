@@ -137,6 +137,10 @@ export const HomeTemplate = () => {
             </LineChart>
           </ResponsiveContainer>
         </Card>
+
+        <Card></Card>
+        <Card></Card>
+        <Card></Card>
       </S.Container>
     </PageTemplate>
   );

@@ -3,22 +3,36 @@ import styled from "styled-components";
 export const Container = styled.div`
   display: grid;
   gap: 40px;
+  grid-template-columns: 1fr;
+  grid-template-areas: "form" "chart1" "chart2" "table1" "table2" "table3";
+
+  > :nth-child(1) {
+    grid-area: form;
+  }
+
+  > :nth-child(2) {
+    grid-area: chart1;
+  }
+
+  > :nth-child(3) {
+    grid-area: chart2;
+  }
+
+  > :nth-child(4) {
+    grid-area: table1;
+  }
+
+  > :nth-child(5) {
+    grid-area: table2;
+  }
+
+  > :nth-child(6) {
+    grid-area: table3;
+  }
 
   @media (min-width: 1024px) {
     grid-template-columns: 434px 1fr;
-    grid-template-areas: "form chart1" "form chart2";
-
-    > :nth-child(1) {
-      grid-area: form;
-    }
-
-    > :nth-child(2) {
-      grid-area: chart1;
-    }
-
-    > :nth-child(3) {
-      grid-area: chart2;
-    }
+    grid-template-areas: "form chart1" "form chart2" "table1 table1" "table2 table2" "table3 table3";
   }
 `;
 
