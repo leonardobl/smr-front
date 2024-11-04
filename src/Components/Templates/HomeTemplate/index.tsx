@@ -22,6 +22,8 @@ import { InputMoney } from "../../Atoms/InputMoney";
 import { SexoEnum } from "../../../Enum/sexo";
 import { InputRadio } from "../../Atoms/InputRadio";
 import { SimpleSelect } from "../../Atoms/SimpleSelect";
+import { useState } from "react";
+import { maskPercentage } from "../../../Util/maskPercent";
 
 const dataLinear = [
   {
@@ -70,6 +72,12 @@ const dataLinear = [
 
 export const HomeTemplate = () => {
   const { formNumber, setFormNumber } = useHome();
+  const [percentual, setPercentual] = useState("");
+
+  function formData(e: string) {
+    const result = maskPercentage(e);
+    setPercentual(result);
+  }
 
   return (
     <PageTemplate>
@@ -135,7 +143,11 @@ export const HomeTemplate = () => {
             {formNumber === 2 && (
               <S.FormAdvancedDataContainer>
                 <div>
-                  <Input label="Taxa de juros anual" />
+                  <Input
+                    value={percentual}
+                    onChange={(e) => formData(e.target.value)}
+                    label="Taxa de juros anual"
+                  />
                 </div>
                 <div>
                   <Input label="Taxa de contribuição RPPS" />
