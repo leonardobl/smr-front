@@ -78,6 +78,7 @@ export const HomeTemplate = () => {
     handleSubmit,
     register,
     reset,
+    printPage,
     getData,
   } = useHome();
 
@@ -301,6 +302,7 @@ export const HomeTemplate = () => {
                 iconleft="/assets/svg/icon-print-blue.svg"
                 variant="blue-light"
                 type="button"
+                onClick={printPage}
               >
                 Relatório
               </Button>

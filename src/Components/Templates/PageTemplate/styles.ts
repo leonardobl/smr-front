@@ -10,6 +10,10 @@ export const WrapperPage = styled.div`
   max-width: ${(props) => props.theme.screens["2xl"]};
   margin: 0 auto;
   padding: 132px 16px 32px;
+
+  @media print {
+    padding: 32px 16px;
+  }
 `;
 
 export const Header = styled.header`
@@ -18,6 +22,10 @@ export const Header = styled.header`
   position: fixed;
   width: 100%;
   z-index: 100;
+
+  @media print {
+    display: none;
+  }
 `;
 
 export const WrapperHeader = styled.header`

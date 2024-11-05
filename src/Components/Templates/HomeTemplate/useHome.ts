@@ -60,6 +60,10 @@ export const useHome = () => {
     console.log(data);
   }
 
+  function printPage() {
+    window.print();
+  }
+
   return {
     formNumber,
     setFormNumber,
@@ -70,5 +74,6 @@ export const useHome = () => {
     errors,
     Controller,
     getData,
+    printPage,
   };
 };
