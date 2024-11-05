@@ -183,10 +183,6 @@ export const HomeTemplate = () => {
                       />
                     )}
                   />
-                  <SimpleSelect
-                    label="Prazo de recebimento do benefício no RPC"
-                    placeholder={"Selecione um prazo"}
-                  />
                 </div>
                 <div>
                   <Input

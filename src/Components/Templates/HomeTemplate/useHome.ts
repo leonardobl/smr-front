@@ -6,7 +6,7 @@ import { IFormMainDTO } from "../../../Types/formMain";
 import { SexoEnum } from "../../../Enum/sexo";
 
 const schema = z.object({
-  nome: z.string(),
+  nome: z.string().min(1),
   data_nascimento: z.string(),
   sexo: z.string(),
   remuneracao_ativa_atual: z.number(),
