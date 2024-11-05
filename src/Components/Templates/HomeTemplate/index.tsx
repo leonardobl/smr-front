@@ -108,19 +108,29 @@ export const HomeTemplate = () => {
                   />
                 </div>
                 <div>
-                  <Controller
-                    control={control}
-                    name="sexo"
-                    render={({ field: { onChange, value } }) => (
-                      <InputRadio
-                        label="Sexo"
-                        options={[SexoEnum.Masculino, SexoEnum.Feminino]}
+                  <S.LabelInputRadio>Sexo</S.LabelInputRadio>
+                  <S.WrapperInputsRadio>
+                    {[SexoEnum.Masculino, SexoEnum.Feminino]?.map((item) => (
+                      <Controller
+                        control={control}
                         name="sexo"
-                        value={value}
-                        onChangeValue={(e) => onChange(e)}
+                        key={Math.random()}
+                        render={({ field: { onChange, value } }) => (
+                          <InputRadio
+                            key={Math.random()}
+                            label={item}
+                            name="sexo"
+                            id="sexo"
+                            value={item}
+                            checked={value === item}
+                            onChange={(e) => {
+                              onChange(e?.currentTarget?.value);
+                            }}
+                          />
+                        )}
                       />
-                    )}
-                  />
+                    ))}
+                  </S.WrapperInputsRadio>
                 </div>
                 <div>
                   <InputMoney

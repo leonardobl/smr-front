@@ -79,3 +79,18 @@ export const FormBasic = styled.form`
   gap: 32px 0;
   padding-top: 36px;
 `;
+
+export const WrapperInputsRadio = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px 0;
+`;
+
+export const LabelInputRadio = styled.label`
+  display: block;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 24px;
+  text-align: left;
+  margin-bottom: 20px;
+`;
