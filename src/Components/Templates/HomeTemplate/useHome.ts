@@ -54,6 +54,7 @@ export const useHome = () => {
       indice_reajuste_paridade: 0,
     },
     resolver: zodResolver(schema),
+    mode: "all",
   });
 
   function getData(data: IFormMainDTO) {
