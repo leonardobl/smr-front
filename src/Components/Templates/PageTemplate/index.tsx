@@ -9,7 +9,10 @@ export const PageTemplate = ({ children, ...rest }: IPageTempalateProps) => {
     <S.Container {...rest}>
       <S.Header>
         <S.WrapperHeader>
-          <img src="/assets/img/logo.png" alt="logo" />
+          {/* <img src="/assets/img/logo.png" alt="logo" /> */}
+          <h1>
+            SMR <span>- Simulador De Migração De Regime</span>
+          </h1>
         </S.WrapperHeader>
       </S.Header>
       <S.WrapperPage>{children}</S.WrapperPage>

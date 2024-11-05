@@ -35,11 +35,23 @@ export const WrapperHeader = styled.header`
     width: 90px;
   }
 
+  > h1 {
+    > span {
+      display: none;
+    }
+  }
+
   @media (min-width: ${(props) => props.theme.screens.md}) {
     justify-content: start;
 
     > img {
       width: 126px;
+    }
+
+    > h1 {
+      > span {
+        display: inline-block;
+      }
     }
   }
 `;
