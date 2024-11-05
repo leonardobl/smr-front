@@ -97,12 +97,15 @@ export const HomeTemplate = () => {
                     error={!!errors?.nome}
                     {...register("nome")}
                     label="Nome"
+                    required
                     placeholder="Digite seu nome"
                   />
                 </div>
                 <div>
                   <Input
                     {...register("data_nascimento")}
+                    error={!!errors?.data_nascimento}
+                    required
                     label="Data de nascimento"
                     placeholder="00/00/0000"
                   />
@@ -117,6 +120,7 @@ export const HomeTemplate = () => {
                         key={Math.random()}
                         render={({ field: { onChange, value } }) => (
                           <InputRadio
+                            required
                             key={Math.random()}
                             label={item}
                             name="sexo"
@@ -133,19 +137,52 @@ export const HomeTemplate = () => {
                   </S.WrapperInputsRadio>
                 </div>
                 <div>
-                  <InputMoney
-                    placeholder="R$ 0,00"
-                    label="Remuneração ativa atual"
+                  <Controller
+                    control={control}
+                    name="remuneracao_ativa_atual"
+                    render={({ field: { onChange, value } }) => (
+                      <InputMoney
+                        required
+                        value={value}
+                        placeholder="R$ 0,00"
+                        label="Remuneração ativa atual"
+                        onChange={(e) => {
+                          console.log(e);
+                          onChange(e);
+                        }}
+                      />
+                    )}
                   />
                 </div>
                 <div>
-                  <InputMoney
-                    placeholder="R$ 0,00"
-                    label="Benefício Especial"
+                  <Controller
+                    control={control}
+                    name="beneficio_especial"
+                    render={({ field: { onChange, value } }) => (
+                      <InputMoney
+                        placeholder="R$ 0,00"
+                        value={value}
+                        label="Benefício Especial"
+                        onChange={(e) => {
+                          console.log(e);
+                          onChange(e);
+                        }}
+                      />
+                    )}
                   />
                 </div>
 
                 <div>
+                  <Controller
+                    control={control}
+                    name="prazo_recebimento_beneficio_rpc"
+                    render={() => (
+                      <SimpleSelect
+                        label="Prazo de recebimento do benefício no RPC"
+                        placeholder={"Selecione um prazo"}
+                      />
+                    )}
+                  />
                   <SimpleSelect
                     label="Prazo de recebimento do benefício no RPC"
                     placeholder={"Selecione um prazo"}
@@ -153,6 +190,7 @@ export const HomeTemplate = () => {
                 </div>
                 <div>
                   <Input
+                    {...register("idade_ingresso_ente_federativo")}
                     type="number"
                     label="Idade de ingresso Ente Federativo"
                     placeholder="30"
@@ -160,6 +198,7 @@ export const HomeTemplate = () => {
                 </div>
                 <div>
                   <Input
+                    {...register("idade_prevista_aposentadoria")}
                     type="number"
                     label="Idade prevista para aposentadoria"
                     placeholder="60"

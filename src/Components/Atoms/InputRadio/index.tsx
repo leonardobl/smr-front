@@ -1,14 +1,16 @@
-import { ComponentProps } from "react";
+import React, { ComponentProps } from "react";
 import * as S from "./styles";
 
 interface IInputRadioProps extends ComponentProps<"input"> {
   label: string;
 }
-export const InputRadio = ({ label, ...props }: IInputRadioProps) => {
-  return (
-    <S.CustomInputLabel>
-      <S.CustomInputRadio {...props} type="radio" />
-      {label && <span>{label}</span>}
-    </S.CustomInputLabel>
-  );
-};
+export const InputRadio = React.forwardRef<HTMLInputElement, IInputRadioProps>(
+  ({ label, ...props }: IInputRadioProps, ref) => {
+    return (
+      <S.CustomInputLabel>
+        <S.CustomInputRadio {...props} type="radio" ref={ref} />
+        {label && <span>{label}</span>}
+      </S.CustomInputLabel>
+    );
+  }
+);
