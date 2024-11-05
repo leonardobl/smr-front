@@ -22,8 +22,6 @@ import { InputMoney } from "../../Atoms/InputMoney";
 import { SexoEnum } from "../../../Enum/sexo";
 import { InputRadio } from "../../Atoms/InputRadio";
 import { SimpleSelect } from "../../Atoms/SimpleSelect";
-import { useState } from "react";
-import { maskPercentage } from "../../../Util/maskPercent";
 
 const dataLinear = [
   {
@@ -71,19 +69,23 @@ const dataLinear = [
 ];
 
 export const HomeTemplate = () => {
-  const { formNumber, setFormNumber } = useHome();
-  const [percentual, setPercentual] = useState("");
-
-  function formData(e: string) {
-    const result = maskPercentage(e);
-    setPercentual(result);
-  }
+  const {
+    formNumber,
+    setFormNumber,
+    Controller,
+    control,
+    errors,
+    handleSubmit,
+    register,
+    reset,
+    getData,
+  } = useHome();
 
   return (
     <PageTemplate>
       <S.Container>
         <Card>
-          <S.Form>
+          <S.Form onSubmit={handleSubmit(getData)}>
             <div>
               <ButtonGroupForm getButtonActiveNumber={setFormNumber} />
             </div>
@@ -91,17 +93,33 @@ export const HomeTemplate = () => {
             {formNumber === 1 && (
               <S.FormBasic>
                 <div>
-                  <Input label="Nome" placeholder="Digite seu nome" />
+                  <Input
+                    error={!!errors?.nome}
+                    {...register("nome")}
+                    label="Nome"
+                    placeholder="Digite seu nome"
+                  />
                 </div>
                 <div>
-                  <Input label="Data de nascimento" placeholder="00/00/0000" />
+                  <Input
+                    {...register("data_nascimento")}
+                    label="Data de nascimento"
+                    placeholder="00/00/0000"
+                  />
                 </div>
                 <div>
-                  <InputRadio
-                    label="Sexo"
-                    values={[SexoEnum.Masculino, SexoEnum.Feminino]}
+                  <Controller
+                    control={control}
                     name="sexo"
-                    onChange={(e) => console.log(e.target.value)}
+                    render={({ field: { onChange, value } }) => (
+                      <InputRadio
+                        label="Sexo"
+                        options={[SexoEnum.Masculino, SexoEnum.Feminino]}
+                        name="sexo"
+                        value={value}
+                        onChangeValue={(e) => onChange(e)}
+                      />
+                    )}
                   />
                 </div>
                 <div>
@@ -144,40 +162,90 @@ export const HomeTemplate = () => {
               <S.FormAdvancedDataContainer>
                 <div>
                   <Input
-                    value={percentual}
-                    onChange={(e) => formData(e.target.value)}
+                    {...register("taxa_juros_anual")}
                     label="Taxa de juros anual"
                   />
                 </div>
                 <div>
-                  <Input label="Taxa de contribuição RPPS" />
-                </div>
-                <div>
-                  <Input label="Taxa de contribuição RPC" />
-                </div>
-                <div>
-                  <InputMoney label="Valor do teto do RGPS" />
-                </div>{" "}
-                <div>
-                  <InputMoney label="Salário de contribuição RPC" />
-                </div>{" "}
-                <div>
-                  <InputMoney label="Índice de inflação" />
+                  <Input
+                    {...register("taxa_contribuicao_rpps")}
+                    label="Taxa de contribuição RPPS"
+                  />
                 </div>
                 <div>
                   <Input
+                    {...register("taxa_contribuicao_rpc")}
+                    label="Taxa de contribuição RPC"
+                  />
+                </div>
+                <div>
+                  <Controller
+                    control={control}
+                    name="valor_teto_rgps"
+                    render={({ field: { onChange, value } }) => (
+                      <InputMoney
+                        value={value}
+                        label="Valor do teto do RGPS"
+                        onChange={(e) => {
+                          console.log(e);
+                          onChange();
+                        }}
+                      />
+                    )}
+                  />
+                </div>
+                <div>
+                  <Controller
+                    control={control}
+                    name="salario_contribuicao_rpc"
+                    render={({ field: { onChange, value } }) => (
+                      <InputMoney
+                        value={value}
+                        label="Salário de contribuição RPC"
+                        onChange={(e) => {
+                          console.log(e);
+                          onChange();
+                        }}
+                      />
+                    )}
+                  />
+                </div>
+                <div>
+                  <Controller
+                    control={control}
+                    name="indice_infl"
+                    render={({ field: { onChange, value } }) => (
+                      <InputMoney
+                        value={value}
+                        label="Índice de inflação"
+                        onChange={(e) => {
+                          console.log(e);
+                          onChange();
+                        }}
+                      />
+                    )}
+                  />
+                </div>
+                <div>
+                  <Input
+                    {...register("indice_reajuste_beneficio_rpc")}
                     type="number"
                     label="Índice de reajuste do benefício RPC"
                   />
                 </div>
                 <div>
                   <Input
+                    {...register("indice_reajuste_beneficio_rpps")}
                     type="number"
                     label="Índice de reajuste do benefício RPPS"
                   />
-                </div>{" "}
+                </div>
                 <div>
-                  <Input type="number" label="Índice de reajuste paridade" />
+                  <Input
+                    {...register("indice_reajuste_paridade")}
+                    type="number"
+                    label="Índice de reajuste paridade"
+                  />
                 </div>
               </S.FormAdvancedDataContainer>
             )}
@@ -194,6 +262,7 @@ export const HomeTemplate = () => {
               <Button
                 variant="blue-light"
                 type="reset"
+                onClick={() => reset()}
                 iconleft="/assets/svg/icon-reset-blue.svg"
               >
                 Reiniciar
