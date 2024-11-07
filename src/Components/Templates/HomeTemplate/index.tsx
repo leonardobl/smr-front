@@ -80,6 +80,8 @@ export const HomeTemplate = () => {
     reset,
     printPage,
     getData,
+    PrazosOptions,
+    Taxas_Anual_Options,
   } = useHome();
 
   return (
@@ -147,9 +149,10 @@ export const HomeTemplate = () => {
                         value={value}
                         placeholder="R$ 0,00"
                         label="Remuneração ativa atual"
-                        onChange={(e) => {
-                          console.log(e);
-                          onChange(e);
+                        onValueChange={(value, _name, values) => {
+                          console.log("value", value);
+                          console.log("values", values);
+                          onChange(values?.float);
                         }}
                       />
                     )}
@@ -164,9 +167,47 @@ export const HomeTemplate = () => {
                         placeholder="R$ 0,00"
                         value={value}
                         label="Benefício Especial"
-                        onChange={(e) => {
-                          console.log(e);
-                          onChange(e);
+                        onValueChange={(value, _name, values) => {
+                          console.log("value", value);
+                          console.log("values", values);
+                          onChange(values?.float);
+                        }}
+                      />
+                    )}
+                  />
+                </div>
+
+                <div>
+                  <Controller
+                    control={control}
+                    disabled
+                    name="valor_teto_rgps"
+                    render={({ field: { onChange, value } }) => (
+                      <InputMoney
+                        value={value}
+                        label="Valor do teto do RGPS"
+                        onValueChange={(value, _name, values) => {
+                          console.log("value", value);
+                          console.log("values", values);
+                          onChange(values?.float);
+                        }}
+                      />
+                    )}
+                  />
+                </div>
+
+                <div>
+                  <Controller
+                    control={control}
+                    name="salario_contribuicao_rpc"
+                    render={({ field: { onChange, value } }) => (
+                      <InputMoney
+                        value={value}
+                        label="Salário de contribuição RPC"
+                        onValueChange={(value, _name, values) => {
+                          console.log("value", value);
+                          console.log("values", values);
+                          onChange(values?.float);
                         }}
                       />
                     )}
@@ -177,10 +218,15 @@ export const HomeTemplate = () => {
                   <Controller
                     control={control}
                     name="prazo_recebimento_beneficio_rpc"
-                    render={() => (
+                    render={({ field: { value, onChange } }) => (
                       <SimpleSelect
+                        options={PrazosOptions}
                         label="Prazo de recebimento do benefício no RPC"
                         placeholder={"Selecione um prazo"}
+                        value={
+                          PrazosOptions.find((i) => i.value === value) || null
+                        }
+                        onChange={(e) => onChange(e?.value)}
                       />
                     )}
                   />
@@ -207,21 +253,35 @@ export const HomeTemplate = () => {
             {formNumber === 2 && (
               <S.FormAdvancedDataContainer>
                 <div>
-                  <Input
-                    {...register("taxa_juros_anual")}
-                    label="Taxa de juros anual"
+                  <Controller
+                    control={control}
+                    name="taxa_juros_anual"
+                    render={({ field: { onChange, value } }) => (
+                      <SimpleSelect
+                        label="Taxa de juros anual"
+                        placeholder={"Selecione uma taxa"}
+                        options={Taxas_Anual_Options}
+                        value={
+                          Taxas_Anual_Options.find((i) => i.value === value) ||
+                          null
+                        }
+                        onChange={(e) => onChange(e?.value)}
+                      />
+                    )}
                   />
                 </div>
                 <div>
                   <Input
-                    {...register("taxa_contribuicao_rpps")}
-                    label="Taxa de contribuição RPPS"
+                    {...register("aliquota_contribuicao_rpps")}
+                    label="Alíquota de contribuição RPPS"
+                    type="number"
                   />
                 </div>
                 <div>
                   <Input
-                    {...register("taxa_contribuicao_rpc")}
-                    label="Taxa de contribuição RPC"
+                    type="number"
+                    {...register("aliquota_contribuicao_rpc")}
+                    label="Alíquota de contribuição RPC"
                   />
                 </div>
                 <div>
@@ -232,44 +292,21 @@ export const HomeTemplate = () => {
                       <InputMoney
                         value={value}
                         label="Valor do teto do RGPS"
-                        onChange={(e) => {
-                          console.log(e);
-                          onChange();
+                        onValueChange={(value, _name, values) => {
+                          console.log("value", value);
+                          console.log("values", values);
+                          onChange(values?.float);
                         }}
                       />
                     )}
                   />
                 </div>
+
                 <div>
-                  <Controller
-                    control={control}
-                    name="salario_contribuicao_rpc"
-                    render={({ field: { onChange, value } }) => (
-                      <InputMoney
-                        value={value}
-                        label="Salário de contribuição RPC"
-                        onChange={(e) => {
-                          console.log(e);
-                          onChange();
-                        }}
-                      />
-                    )}
-                  />
-                </div>
-                <div>
-                  <Controller
-                    control={control}
-                    name="indice_infl"
-                    render={({ field: { onChange, value } }) => (
-                      <InputMoney
-                        value={value}
-                        label="Índice de inflação"
-                        onChange={(e) => {
-                          console.log(e);
-                          onChange();
-                        }}
-                      />
-                    )}
+                  <Input
+                    {...register("indice_infl")}
+                    label="Índice de inflação"
+                    type="number"
                   />
                 </div>
                 <div>

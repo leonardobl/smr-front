@@ -15,7 +15,7 @@ const schema = z.object({
   idade_ingresso_ente_federativo: z.number(),
   idade_prevista_aposentadoria: z.number(),
   taxa_juros_anual: z.number(),
-  taxa_contribuicao_rpps: z.number(),
+  aliquota_contribuicao_rpps: z.number(),
   taxa_contribuicao_rpc: z.number(),
   valor_teto_rgps: z.number(),
   salario_contribuicao_rpc: z.number(),
@@ -24,6 +24,57 @@ const schema = z.object({
   indice_reajuste_beneficio_rpps: z.number(),
   indice_reajuste_paridade: z.number(),
 });
+
+const PrazosOptions = [
+  "5 Anos",
+  "10 Anos",
+  "15 Anos",
+  "20 Anos",
+  "25 Anos",
+  "Vitalício",
+].map((item) => ({
+  label: item,
+  value: item,
+}));
+
+const Taxas_Anual_Options = [
+  "0,50%",
+  "1,00%",
+  "1,50%",
+  "2,00%",
+  "2,50%",
+  "3,00%",
+  "3,50%",
+  "4,00%",
+  "4,50%",
+  "5,00%",
+  "5,50%",
+  "6,00%",
+  "6,50%",
+  "7,00%",
+  "7,50%",
+  "8,00%",
+  "8,50%",
+  "9,00%",
+  "9,50%",
+  "10,00%",
+  "10,50%",
+  "11,00%",
+  "11,50%",
+  "12,00%",
+  "12,50%",
+  "13,00%",
+  "13,50%",
+  "14,00%",
+  "14,50%",
+  "15,00%",
+  "15,50%",
+  "16,00%",
+].map((item) => ({
+  label: item,
+  value: item,
+}));
+
 export const useHome = () => {
   const [formNumber, setFormNumber] = useState(1);
 
@@ -43,9 +94,9 @@ export const useHome = () => {
       prazo_recebimento_beneficio_rpc: "",
       idade_ingresso_ente_federativo: 0,
       idade_prevista_aposentadoria: 0,
-      taxa_juros_anual: 0,
-      taxa_contribuicao_rpps: 0,
-      taxa_contribuicao_rpc: 0,
+      taxa_juros_anual: "",
+      aliquota_contribuicao_rpps: 0,
+      aliquota_contribuicao_rpc: 0,
       valor_teto_rgps: 0,
       salario_contribuicao_rpc: 0,
       indice_infl: 0,
@@ -76,5 +127,7 @@ export const useHome = () => {
     Controller,
     getData,
     printPage,
+    PrazosOptions,
+    Taxas_Anual_Options,
   };
 };

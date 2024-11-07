@@ -9,9 +9,9 @@ export interface IFormMainDTO {
   prazo_recebimento_beneficio_rpc: string;
   idade_ingresso_ente_federativo: number;
   idade_prevista_aposentadoria: number;
-  taxa_juros_anual: number;
-  taxa_contribuicao_rpps: number;
-  taxa_contribuicao_rpc: number;
+  taxa_juros_anual: string;
+  aliquota_contribuicao_rpps: number;
+  aliquota_contribuicao_rpc: number;
   valor_teto_rgps: number;
   salario_contribuicao_rpc: number;
   indice_infl: number;
