@@ -5,6 +5,7 @@ import { z } from "zod";
 import { IFormMainDTO } from "../../../Types/formMain";
 import { SexoEnum } from "../../../Enum/sexo";
 import { maskNiver } from "../../../Util/masks";
+import { useContextSite } from "../../../Hooks/useContextSite";
 
 const schema = z.object({
   nome: z.string(),
@@ -141,9 +142,11 @@ const defaulValue: ITableFaseAtiva = {
 };
 
 export const useHome = () => {
+  const { setIsLoad } = useContextSite();
   const [formNumber, setFormNumber] = useState(1);
   const [valorTeto, setValorTeto] = useState("");
-  // const [resultCalculoRPC, setResultCalculoRPC] = useState(0);
+  const [remuneracaoAtivaAtualText, setRemuneracaoAtivaAtualText] =
+    useState("");
   const [table1, setTable1] = useState<ITableFaseAtiva>(defaulValue);
 
   const {
@@ -179,14 +182,74 @@ export const useHome = () => {
   });
 
   function getData(data: IFormMainDTO) {
+    setIsLoad(true);
     console.log(data);
 
     calculoSalarioRPC(data);
 
-    // const result =
-    //   (data.remuneracao_ativa_atual * data.aliquota_contribuicao_rpps) / 100;
+    formatDataRemuneracaoFaseAtiva(data);
+    formatDataContribuicaoRPPSFaseAtiva(data);
+    formatDataContribuicaoRPCBasicaFaseAtiva(data);
+    formatDataSomaContribuicaoFaseAtiva(data);
 
-    setTable1(defaulValue);
+    setTimeout(() => {
+      setIsLoad(false);
+    }, 1500);
+  }
+
+  function formatDataRemuneracaoFaseAtiva(data: IFormMainDTO) {
+    const rem_sem_migracao = data.remuneracao_ativa_atual;
+
+    setTable1((prev) => ({
+      ...prev,
+      remuneracao: {
+        ...prev.remuneracao,
+        sem_migracao: rem_sem_migracao,
+      },
+    }));
+  }
+
+  function formatDataContribuicaoRPPSFaseAtiva(data: IFormMainDTO) {
+    console.log(data);
+
+    const cont_sem_migracao =
+      (data.remuneracao_ativa_atual * data.aliquota_contribuicao_rpps) / 100;
+
+    setTable1((prev) => ({
+      ...prev,
+      contribuicao_RPPS: {
+        ...prev.contribuicao_RPPS,
+        sem_migracao: cont_sem_migracao,
+      },
+    }));
+  }
+
+  function formatDataContribuicaoRPCBasicaFaseAtiva(data: IFormMainDTO) {
+    console.log(data);
+
+    setTable1((prev) => ({
+      ...prev,
+      contribuicao_RPC_basica: {
+        ...prev.contribuicao_RPC_basica,
+      },
+    }));
+  }
+
+  function formatDataSomaContribuicaoFaseAtiva(data: IFormMainDTO) {
+    console.log(data);
+
+    const soma_sem_migracao =
+      table1.contribuicao_RPPS.sem_migracao +
+      table1.contribuicao_RPC_basica.sem_migracao +
+      table1.contribuicao_RPC_facultativa.sem_migracao;
+
+    setTable1((prev) => ({
+      ...prev,
+      soma_contribuicao: {
+        ...prev.soma_contribuicao,
+        sem_migracao: soma_sem_migracao,
+      },
+    }));
   }
 
   function printPage() {
@@ -196,7 +259,6 @@ export const useHome = () => {
   function calculoSalarioRPC(data: IFormMainDTO) {
     const salario = data.remuneracao_ativa_atual - data.valor_teto_rgps;
     setValue("salario_contribuicao_rpc", salario);
-    // setResultCalculoRPC(result);
   }
 
   useEffect(() => {
@@ -205,12 +267,18 @@ export const useHome = () => {
     }
   }, [watch("data_nascimento")]);
 
+  function resetForm() {
+    reset();
+    setTable1(defaulValue);
+    setValorTeto("");
+    setRemuneracaoAtivaAtualText("");
+  }
+
   return {
     formNumber,
     setFormNumber,
     control,
     register,
-    reset,
     handleSubmit,
     errors,
     Controller,
@@ -222,5 +290,8 @@ export const useHome = () => {
     valorTeto,
     watch,
     table1,
+    remuneracaoAtivaAtualText,
+    setRemuneracaoAtivaAtualText,
+    resetForm,
   };
 };

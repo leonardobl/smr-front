@@ -8,8 +8,11 @@ export const Wrapper = styled.div`
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.6);
   z-index: 999;
+
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 
   transition: all 0.5s linear;
 `;
@@ -19,8 +22,8 @@ export const ImgLoad = styled.img`
   display: block;
   margin-bottom: 16px;
 
-  filter: brightness(0) saturate(100%) invert(66%) sepia(49%) saturate(550%)
-    hue-rotate(75deg) brightness(96%) contrast(90%);
+  filter: brightness(0) saturate(100%) invert(14%) sepia(56%) saturate(7158%)
+    hue-rotate(216deg) brightness(85%) contrast(103%);
 `;
 
 export const WrapperImg = styled.div`

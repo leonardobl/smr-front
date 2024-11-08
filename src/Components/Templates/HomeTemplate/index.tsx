@@ -79,7 +79,6 @@ export const HomeTemplate = () => {
     errors,
     handleSubmit,
     register,
-    reset,
     printPage,
     getData,
     PrazosOptions,
@@ -88,6 +87,9 @@ export const HomeTemplate = () => {
     valorTeto,
     watch,
     table1,
+    remuneracaoAtivaAtualText,
+    resetForm,
+    setRemuneracaoAtivaAtualText,
   } = useHome();
 
   useEffect(() => {
@@ -152,15 +154,14 @@ export const HomeTemplate = () => {
                   <Controller
                     control={control}
                     name="remuneracao_ativa_atual"
-                    render={({ field: { onChange, value } }) => (
+                    render={({ field: { onChange } }) => (
                       <InputMoney
                         error={!!errors?.remuneracao_ativa_atual}
-                        value={value}
+                        value={remuneracaoAtivaAtualText}
                         placeholder="R$ 0,00"
                         label="Remuneração ativa atual"
                         onValueChange={(value, _name, values) => {
-                          console.log("value", value);
-                          console.log("values", values);
+                          setRemuneracaoAtivaAtualText(value || "");
                           onChange(values?.float);
                         }}
                       />
@@ -237,7 +238,9 @@ export const HomeTemplate = () => {
                 </div>
                 <div>
                   <Input
-                    {...register("idade_ingresso_ente_federativo")}
+                    {...register("idade_ingresso_ente_federativo", {
+                      valueAsNumber: true,
+                    })}
                     type="number"
                     error={!!errors?.idade_ingresso_ente_federativo}
                     label="Idade de ingresso Ente Federativo"
@@ -246,7 +249,9 @@ export const HomeTemplate = () => {
                 </div>
                 <div>
                   <Input
-                    {...register("idade_prevista_aposentadoria")}
+                    {...register("idade_prevista_aposentadoria", {
+                      valueAsNumber: true,
+                    })}
                     type="number"
                     error={!!errors?.idade_prevista_aposentadoria}
                     label="Idade prevista para aposentadoria"
@@ -370,7 +375,7 @@ export const HomeTemplate = () => {
               <Button
                 variant="blue-light"
                 type="reset"
-                onClick={() => reset()}
+                onClick={resetForm}
                 iconleft="/assets/svg/icon-reset-blue.svg"
               >
                 Reiniciar
