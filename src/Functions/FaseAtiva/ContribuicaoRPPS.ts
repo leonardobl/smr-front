@@ -15,9 +15,14 @@ export function formatDataContribuicaoRPPSFaseAtiva({
       Math.min(data.remuneracao_ativa_atual, data.valor_teto_rgps)
   );
 
+  const com_migracao_rpc_basica = com_migracao;
+  const com_migracao_rpc_facultativa = com_migracao;
+
   return {
     ...DefaulValueTable1.contribuicao_RPPS,
     sem_migracao,
     com_migracao,
+    com_migracao_rpc_basica,
+    com_migracao_rpc_facultativa,
   };
 }

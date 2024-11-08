@@ -456,8 +456,16 @@ export const HomeTemplate = () => {
                   {maskMoney(table1?.contribuicao_RPPS?.com_migracao) ||
                     "R$ 0,00"}
                 </p>
-                <p>R$ 39.726,34</p>
-                <p>R$ 39.726,34</p>
+                <p>
+                  {maskMoney(
+                    table1?.contribuicao_RPPS?.com_migracao_rpc_basica
+                  ) || "R$ 0,00"}
+                </p>
+                <p>
+                  {maskMoney(
+                    table1?.contribuicao_RPPS?.com_migracao_rpc_facultativa
+                  ) || "R$ 0,00"}
+                </p>
               </TableItem>
 
               <TableItem columns="2fr 1fr 1fr 1.2fr 1.2fr">
@@ -466,9 +474,21 @@ export const HomeTemplate = () => {
                   {maskMoney(table1?.contribuicao_RPC_basica?.sem_migracao) ||
                     "R$ 0,00"}
                 </p>
-                <p>R$ 39.726,34</p>
-                <p>R$ 39.726,34</p>
-                <p>R$ 39.726,34</p>
+                <p>
+                  {maskMoney(table1?.contribuicao_RPC_basica?.com_migracao) ||
+                    "R$ 0,00"}
+                </p>
+                <p>
+                  {maskMoney(
+                    table1?.contribuicao_RPC_basica?.com_migracao_rpc_basica
+                  ) || "R$ 0,00"}
+                </p>
+                <p>
+                  {maskMoney(
+                    table1?.contribuicao_RPC_basica
+                      ?.com_migracao_rpc_facultativa
+                  ) || "R$ 0,00"}
+                </p>
               </TableItem>
 
               <TableItem columns="2fr 1fr 1fr 1.2fr 1.2fr">
@@ -478,9 +498,23 @@ export const HomeTemplate = () => {
                     table1?.contribuicao_RPC_facultativa?.sem_migracao
                   ) || "R$ 0,00"}
                 </p>
-                <p>R$ 39.726,34</p>
-                <p>R$ 39.726,34</p>
-                <p>R$ 39.726,34</p>
+                <p>
+                  {maskMoney(
+                    table1?.contribuicao_RPC_facultativa?.com_migracao
+                  ) || "R$ 0,00"}
+                </p>
+                <p>
+                  {maskMoney(
+                    table1?.contribuicao_RPC_facultativa
+                      ?.com_migracao_rpc_basica
+                  ) || "R$ 0,00"}
+                </p>
+                <p>
+                  {maskMoney(
+                    table1?.contribuicao_RPC_facultativa
+                      ?.com_migracao_rpc_facultativa
+                  ) || "R$ 0,00"}
+                </p>
               </TableItem>
 
               <TableItem columns="2fr 1fr 1fr 1.2fr 1.2fr">
@@ -489,9 +523,20 @@ export const HomeTemplate = () => {
                   {maskMoney(table1.soma_contribuicao.sem_migracao) ||
                     "R$ 0,00"}
                 </p>
-                <p>R$ 39.726,34</p>
-                <p>R$ 39.726,34</p>
-                <p>R$ 39.726,34</p>
+                <p>
+                  {maskMoney(table1.soma_contribuicao.com_migracao) ||
+                    "R$ 0,00"}
+                </p>
+                <p>
+                  {maskMoney(
+                    table1.soma_contribuicao.com_migracao_rpc_basica
+                  ) || "R$ 0,00"}
+                </p>
+                <p>
+                  {maskMoney(
+                    table1.soma_contribuicao.com_migracao_rpc_facultativa
+                  ) || "R$ 0,00"}
+                </p>
               </TableItem>
               <TableItem columns="2fr 1fr 1fr 1.2fr 1.2fr">
                 <p>Salário Líquido após contribuição</p>
@@ -500,9 +545,23 @@ export const HomeTemplate = () => {
                     table1?.salario_liquido_contribuicao?.sem_migracao
                   ) || "R$ 0,00"}
                 </p>
-                <p>R$ 39.726,34</p>
-                <p>R$ 39.726,34</p>
-                <p>R$ 39.726,34</p>
+                <p>
+                  {maskMoney(
+                    table1?.salario_liquido_contribuicao?.com_migracao
+                  ) || "R$ 0,00"}
+                </p>
+                <p>
+                  {maskMoney(
+                    table1?.salario_liquido_contribuicao
+                      ?.com_migracao_rpc_basica
+                  ) || "R$ 0,00"}
+                </p>
+                <p>
+                  {maskMoney(
+                    table1?.salario_liquido_contribuicao
+                      ?.com_migracao_rpc_facultativa
+                  ) || "R$ 0,00"}
+                </p>
               </TableItem>
 
               <TableItem columns="2fr 1fr 1fr 1.2fr 1.2fr">

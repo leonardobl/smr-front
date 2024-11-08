@@ -175,7 +175,9 @@ export const useHome = () => {
   function getData(data: IFormMainDTO) {
     setIsLoad(true);
 
-    calculoSalarioRPC(data);
+    const salario_contribuicao_rpc =
+      data.remuneracao_ativa_atual - data.valor_teto_rgps;
+    setValue("salario_contribuicao_rpc", salario_contribuicao_rpc);
 
     // FASE ATIVA SEM MIGRAÇÃO
 
@@ -185,12 +187,15 @@ export const useHome = () => {
     });
     const contribuicao_RPC_basica = formatDataContribuicaoRPCBasicaFaseAtiva({
       data,
+      salario_contribuicao_rpc,
     });
 
     const contribuicao_RPC_facultativa =
-      formatDataContribuicaoRPCBasicaFacultativaFaseAtiva({ data });
+      formatDataContribuicaoRPCBasicaFacultativaFaseAtiva({
+        data,
+        salario_contribuicao_rpc,
+      });
     const soma_contribuicao = formatDataSomaContribuicaoFaseAtiva({
-      data,
       contribuicao_RPC_basica,
       contribuicao_RPC_facultativa,
       contribuicao_RPPS,
@@ -216,6 +221,7 @@ export const useHome = () => {
       contribuicao_RPC_basica,
       soma_contribuicao,
       salario_liquido_contribuicao,
+      contribuicao_RPC_facultativa,
     }));
 
     setTimeout(() => {
@@ -225,11 +231,6 @@ export const useHome = () => {
 
   function printPage() {
     window.print();
-  }
-
-  function calculoSalarioRPC(data: IFormMainDTO) {
-    const salario = data.remuneracao_ativa_atual - data.valor_teto_rgps;
-    setValue("salario_contribuicao_rpc", salario);
   }
 
   useEffect(() => {
