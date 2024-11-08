@@ -176,8 +176,9 @@ export const useHome = () => {
   function getData(data: IFormMainDTO) {
     setIsLoad(true);
 
-    const salario_contribuicao_rpc =
-      data.remuneracao_ativa_atual - data.valor_teto_rgps;
+    const salario_contribuicao_rpc = Math.floor(
+      data.remuneracao_ativa_atual - data.valor_teto_rgps
+    );
     setValue("salario_contribuicao_rpc", salario_contribuicao_rpc);
 
     // FASE ATIVA
