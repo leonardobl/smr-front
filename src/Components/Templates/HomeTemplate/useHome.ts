@@ -14,6 +14,7 @@ import { formatDataContribuicaoRPCBasicaFacultativaFaseAtiva } from "../../../Fu
 import { formatDataSomaContribuicaoFaseAtiva } from "../../../Functions/FaseAtiva/SomaContribuicao";
 import { formatDataSalarioLiquidoFaseAtiva } from "../../../Functions/FaseAtiva/SalarioLiquido";
 import { IrFaseAtiva } from "../../../Functions/FaseAtiva/Ir";
+import { formatDataRemuneracaoLiquidaIRFaseAtiva } from "../../../Functions/FaseAtiva/formatDataRemuneracaoLiquidaIRFaseAtiva";
 
 const schema = z.object({
   nome: z.string(),
@@ -179,7 +180,7 @@ export const useHome = () => {
       data.remuneracao_ativa_atual - data.valor_teto_rgps;
     setValue("salario_contribuicao_rpc", salario_contribuicao_rpc);
 
-    // FASE ATIVA SEM MIGRAÇÃO
+    // FASE ATIVA
 
     const remuneracao = formatDataRemuneracaoFaseAtiva({ data });
     const contribuicao_RPPS = formatDataContribuicaoRPPSFaseAtiva({
@@ -206,13 +207,15 @@ export const useHome = () => {
       soma_contribuicao,
       remuneracao,
     });
-    IrFaseAtiva({
-      data,
-      setTable: setTable1,
-      table: table1,
+
+    const ir = IrFaseAtiva({
+      salario_liquido_contribuicao,
     });
 
-    //
+    const remuneracao_liquida_ir = formatDataRemuneracaoLiquidaIRFaseAtiva({
+      salario_liquido_contribuicao,
+      ir,
+    });
 
     setTable1((prev) => ({
       ...prev,
@@ -222,7 +225,11 @@ export const useHome = () => {
       soma_contribuicao,
       salario_liquido_contribuicao,
       contribuicao_RPC_facultativa,
+      ir,
+      remuneracao_liquida_ir,
     }));
+
+    //
 
     setTimeout(() => {
       setIsLoad(false);

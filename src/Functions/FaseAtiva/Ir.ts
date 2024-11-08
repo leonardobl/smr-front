@@ -1,16 +1,42 @@
-import { IFormMainDTO } from "../../Types/formMain";
-import { ITableFaseAtiva } from "../../Types/table";
+import { DefaulValueTable1 } from "../../Components/Templates/HomeTemplate/useHome";
+import { TabelaIR } from "../../Data/TabelaIR";
+import { ITypeFaseTable } from "../../Types/table";
 
 export function IrFaseAtiva({
-  data,
-  setTable,
-  table,
+  salario_liquido_contribuicao,
 }: {
-  data: IFormMainDTO;
-  table: ITableFaseAtiva;
-  setTable: React.Dispatch<React.SetStateAction<ITableFaseAtiva>>;
-}) {
-  const teste = { data, table, setTable };
+  salario_liquido_contribuicao: ITypeFaseTable;
+}): ITypeFaseTable {
+  const IR_CORRESPONDENTE_SEM_MIGRACAO = Object.values(TabelaIR).find(
+    (ir) =>
+      salario_liquido_contribuicao.com_migracao >= ir.min &&
+      salario_liquido_contribuicao.com_migracao <= ir.max
+  );
+  const sem_migracao =
+    (IR_CORRESPONDENTE_SEM_MIGRACAO!.aliquota / 100) *
+      salario_liquido_contribuicao.sem_migracao -
+    IR_CORRESPONDENTE_SEM_MIGRACAO!.deducao;
 
-  return teste;
+  const com_migracao =
+    (IR_CORRESPONDENTE_SEM_MIGRACAO!.aliquota / 100) *
+      salario_liquido_contribuicao.com_migracao -
+    IR_CORRESPONDENTE_SEM_MIGRACAO!.deducao;
+
+  const com_migracao_rpc_basica =
+    (IR_CORRESPONDENTE_SEM_MIGRACAO!.aliquota / 100) *
+      salario_liquido_contribuicao.com_migracao_rpc_basica -
+    IR_CORRESPONDENTE_SEM_MIGRACAO!.deducao;
+
+  const com_migracao_rpc_facultativa =
+    (IR_CORRESPONDENTE_SEM_MIGRACAO!.aliquota / 100) *
+      salario_liquido_contribuicao.com_migracao_rpc_facultativa -
+    IR_CORRESPONDENTE_SEM_MIGRACAO!.deducao;
+
+  return {
+    ...DefaulValueTable1.ir,
+    sem_migracao,
+    com_migracao,
+    com_migracao_rpc_basica,
+    com_migracao_rpc_facultativa,
+  };
 }

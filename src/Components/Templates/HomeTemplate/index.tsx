@@ -566,18 +566,37 @@ export const HomeTemplate = () => {
 
               <TableItem columns="2fr 1fr 1fr 1.2fr 1.2fr">
                 <p>(-) Imposto de Renda - tabela progressiva</p>
-                <p>R$ 39.726,34</p>
-                <p>R$ 39.726,34</p>
-                <p>R$ 39.726,34</p>
-                <p>R$ 39.726,34</p>
+                <p>{maskMoney(table1?.ir?.sem_migracao) || "R$ 0,00"}</p>
+                <p>{maskMoney(table1?.ir?.com_migracao) || "R$ 0,00"}</p>
+                <p>
+                  {maskMoney(table1?.ir?.com_migracao_rpc_basica) || "R$ 0,00"}
+                </p>
+                <p>
+                  {maskMoney(table1?.ir?.com_migracao_rpc_facultativa) ||
+                    "R$ 0,00"}
+                </p>
               </TableItem>
             </Table.WrapperItems>
             <Table.Footer columns="2fr 1fr 1fr 1.2fr 1.2fr">
               <p>Remuneração Líquida após IR</p>
-              <p>R$ 25.665,37</p>
-              <p>R$ 28.907,32</p>
-              <p>R$ 26.938,99</p>
-              <p>R$ 25.665,37</p>
+              <p>
+                {maskMoney(table1?.remuneracao_liquida_ir?.sem_migracao) ||
+                  "R$ 0,00"}
+              </p>
+              <p>
+                {maskMoney(table1?.remuneracao_liquida_ir?.com_migracao) ||
+                  "R$ 0,00"}
+              </p>
+              <p>
+                {maskMoney(
+                  table1?.remuneracao_liquida_ir?.com_migracao_rpc_basica
+                ) || "R$ 0,00"}
+              </p>
+              <p>
+                {maskMoney(
+                  table1?.remuneracao_liquida_ir?.com_migracao_rpc_facultativa
+                ) || "R$ 0,00"}
+              </p>
             </Table.Footer>
           </Table.Root>
         </Card>
