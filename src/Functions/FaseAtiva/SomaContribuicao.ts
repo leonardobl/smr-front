@@ -1,15 +1,15 @@
-import { DefaulValueTable1 } from "./../../Components/Templates/HomeTemplate/useHome";
-import { ITypeFaseTable } from "./../../Types/table.d";
+import { DefaultValueTable1 } from "../../Data/DeafaultValue/Table1";
+import { IFaseTableItem } from "./../../Types/table.d";
 
 export function formatDataSomaContribuicaoFaseAtiva({
   contribuicao_RPPS,
   contribuicao_RPC_basica,
   contribuicao_RPC_facultativa,
 }: {
-  contribuicao_RPPS: ITypeFaseTable;
-  contribuicao_RPC_basica: ITypeFaseTable;
-  contribuicao_RPC_facultativa: ITypeFaseTable;
-}): ITypeFaseTable {
+  contribuicao_RPPS: IFaseTableItem;
+  contribuicao_RPC_basica: IFaseTableItem;
+  contribuicao_RPC_facultativa: IFaseTableItem;
+}): IFaseTableItem {
   const sem_migracao =
     contribuicao_RPPS.sem_migracao +
     contribuicao_RPC_basica.sem_migracao +
@@ -31,7 +31,7 @@ export function formatDataSomaContribuicaoFaseAtiva({
     contribuicao_RPC_facultativa.com_migracao_rpc_facultativa;
 
   return {
-    ...DefaulValueTable1.soma_contribuicao,
+    ...DefaultValueTable1.soma_contribuicao,
     sem_migracao,
     com_migracao,
     com_migracao_rpc_basica,

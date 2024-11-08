@@ -1,6 +1,6 @@
-import { DefaulValueTable1 } from "./../../Components/Templates/HomeTemplate/useHome";
-import { ITypeFaseTable } from "./../../Types/table.d";
+import { IFaseTableItem } from "./../../Types/table.d";
 import { IFormMainDTO } from "./../../Types/formMain.d";
+import { DefaultValueTable1 } from "../../Data/DeafaultValue/Table1";
 
 export function formatDataSalarioLiquidoFaseAtiva({
   data,
@@ -8,9 +8,9 @@ export function formatDataSalarioLiquidoFaseAtiva({
   soma_contribuicao,
 }: {
   data: IFormMainDTO;
-  remuneracao: ITypeFaseTable;
-  soma_contribuicao: ITypeFaseTable;
-}): ITypeFaseTable {
+  remuneracao: IFaseTableItem;
+  soma_contribuicao: IFaseTableItem;
+}): IFaseTableItem {
   console.log(data);
   const sem_migracao =
     remuneracao.sem_migracao - soma_contribuicao.sem_migracao;
@@ -25,7 +25,7 @@ export function formatDataSalarioLiquidoFaseAtiva({
     remuneracao.sem_migracao - soma_contribuicao.com_migracao_rpc_facultativa;
 
   return {
-    ...DefaulValueTable1.salario_liquido_contribuicao,
+    ...DefaultValueTable1.salario_liquido_contribuicao,
     sem_migracao,
     com_migracao,
     com_migracao_rpc_basica,

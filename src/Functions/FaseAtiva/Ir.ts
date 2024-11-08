@@ -1,12 +1,12 @@
-import { DefaulValueTable1 } from "../../Components/Templates/HomeTemplate/useHome";
+import { DefaultValueTable1 } from "../../Data/DeafaultValue/Table1";
 import { TabelaIR } from "../../Data/TabelaIR";
-import { ITypeFaseTable } from "../../Types/table";
+import { IFaseTableItem } from "../../Types/table";
 
 export function IrFaseAtiva({
   salario_liquido_contribuicao,
 }: {
-  salario_liquido_contribuicao: ITypeFaseTable;
-}): ITypeFaseTable {
+  salario_liquido_contribuicao: IFaseTableItem;
+}): IFaseTableItem {
   const IR_CORRESPONDENTE_SEM_MIGRACAO = Object.values(TabelaIR).find(
     (ir) =>
       salario_liquido_contribuicao.com_migracao >= ir.min &&
@@ -33,7 +33,7 @@ export function IrFaseAtiva({
     IR_CORRESPONDENTE_SEM_MIGRACAO!.deducao;
 
   return {
-    ...DefaulValueTable1.ir,
+    ...DefaultValueTable1.ir,
     sem_migracao,
     com_migracao,
     com_migracao_rpc_basica,

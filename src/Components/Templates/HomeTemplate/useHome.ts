@@ -1,3 +1,4 @@
+import { DefaultValueTable2 } from "./../../../Data/DeafaultValue/Table2";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
@@ -6,7 +7,7 @@ import { IFormMainDTO } from "../../../Types/formMain";
 import { SexoEnum } from "../../../Enum/sexo";
 import { maskNiver } from "../../../Util/masks";
 import { useContextSite } from "../../../Hooks/useContextSite";
-import { ITableFaseAtiva } from "../../../Types/table";
+import { ITableFaseAtiva, ITableFaseBeneficio } from "../../../Types/table";
 import { formatDataRemuneracaoFaseAtiva } from "../../../Functions/FaseAtiva/Remuneracao";
 import { formatDataContribuicaoRPPSFaseAtiva } from "../../../Functions/FaseAtiva/ContribuicaoRPPS";
 import { formatDataContribuicaoRPCBasicaFaseAtiva } from "../../../Functions/FaseAtiva/ContribuicaoRPCBasica";
@@ -14,7 +15,13 @@ import { formatDataContribuicaoRPCBasicaFacultativaFaseAtiva } from "../../../Fu
 import { formatDataSomaContribuicaoFaseAtiva } from "../../../Functions/FaseAtiva/SomaContribuicao";
 import { formatDataSalarioLiquidoFaseAtiva } from "../../../Functions/FaseAtiva/SalarioLiquido";
 import { IrFaseAtiva } from "../../../Functions/FaseAtiva/Ir";
-import { formatDataRemuneracaoLiquidaIRFaseAtiva } from "../../../Functions/FaseAtiva/formatDataRemuneracaoLiquidaIRFaseAtiva";
+import { formatDataRemuneracaoLiquidaIRFaseAtiva } from "../../../Functions/FaseAtiva/RemuneracaoLiquidaIRFaseAtiva";
+import { DefaultValueTable1 } from "../../../Data/DeafaultValue/Table1";
+import { formatDataBeneficioRPPSFaseBeneficio } from "../../../Functions/FaseBeneficio/BeneficioRPPS";
+import { formatDataContribuicaoRPPSFaseBeneficio } from "../../../Functions/FaseBeneficio/ContribuicaoRPPS";
+import { formatDataSalarioLiquidoIRFaseBeneficio } from "../../../Functions/FaseBeneficio/SalarioLiquidoIr";
+import { IrFaseBeneficio } from "../../../Functions/FaseBeneficio/IrFaseBenficio";
+import { formatDataRemuneracaoLiquidaIRFaseBeneficio } from "../../../Functions/FaseBeneficio/RemuneracaoLiquidaIRFaseBeneficio";
 
 const schema = z.object({
   nome: z.string(),
@@ -24,7 +31,7 @@ const schema = z.object({
   beneficio_especial: z.number(),
   prazo_recebimento_beneficio_rpc: z.string(),
   idade_ingresso_ente_federativo: z.number(),
-  idade_prevista_aposentadoria: z.number(),
+  idade_prevista_aposentadoria: z.number().gt(0),
   taxa_juros_anual: z.string(),
   aliquota_contribuicao_rpps: z.number().gt(0),
   aliquota_contribuicao_rpc: z.number(),
@@ -81,57 +88,6 @@ const Taxas_Anual_Options = [
   value: item,
 }));
 
-export const DefaulValueTable1: ITableFaseAtiva = {
-  remuneracao: {
-    com_migracao_rpc_basica: 0,
-    com_migracao_rpc_facultativa: 0,
-    com_migracao: 0,
-    sem_migracao: 0,
-  },
-  contribuicao_RPC_basica: {
-    com_migracao_rpc_basica: 0,
-    com_migracao_rpc_facultativa: 0,
-    com_migracao: 0,
-    sem_migracao: 0,
-  },
-  contribuicao_RPC_facultativa: {
-    com_migracao_rpc_basica: 0,
-    com_migracao_rpc_facultativa: 0,
-    com_migracao: 0,
-    sem_migracao: 0,
-  },
-  contribuicao_RPPS: {
-    com_migracao_rpc_basica: 0,
-    com_migracao_rpc_facultativa: 0,
-    com_migracao: 0,
-    sem_migracao: 0,
-  },
-  ir: {
-    com_migracao_rpc_basica: 0,
-    com_migracao_rpc_facultativa: 0,
-    com_migracao: 0,
-    sem_migracao: 0,
-  },
-  remuneracao_liquida_ir: {
-    com_migracao_rpc_basica: 0,
-    com_migracao_rpc_facultativa: 0,
-    com_migracao: 0,
-    sem_migracao: 0,
-  },
-  salario_liquido_contribuicao: {
-    com_migracao_rpc_basica: 0,
-    com_migracao_rpc_facultativa: 0,
-    com_migracao: 0,
-    sem_migracao: 0,
-  },
-  soma_contribuicao: {
-    com_migracao_rpc_basica: 0,
-    com_migracao_rpc_facultativa: 0,
-    com_migracao: 0,
-    sem_migracao: 0,
-  },
-};
-
 export const useHome = () => {
   const { setIsLoad } = useContextSite();
   const [formNumber, setFormNumber] = useState(1);
@@ -139,7 +95,8 @@ export const useHome = () => {
   const [remuneracaoAtivaAtualText, setRemuneracaoAtivaAtualText] =
     useState("");
   const [beneficioEspecialText, setBeneficioEspecialText] = useState("");
-  const [table1, setTable1] = useState<ITableFaseAtiva>(DefaulValueTable1);
+  const [table1, setTable1] = useState<ITableFaseAtiva>(DefaultValueTable1);
+  const [table2, setTable2] = useState<ITableFaseBeneficio>(DefaultValueTable2);
 
   const {
     control,
@@ -232,6 +189,46 @@ export const useHome = () => {
 
     //
 
+    // FASE BENEFICIO
+
+    const beneficio_rpps = formatDataBeneficioRPPSFaseBeneficio({
+      remuneracao,
+    });
+
+    const contribuicao_beneficio_RPPS = formatDataContribuicaoRPPSFaseBeneficio(
+      {
+        data,
+        beneficio_rpps,
+      }
+    );
+
+    const saldo_liquido_ir = formatDataSalarioLiquidoIRFaseBeneficio({
+      data,
+      beneficio_rpps,
+      contribuicao_beneficio_RPPS,
+    });
+
+    const ir_fase_beneficio = IrFaseBeneficio({ saldo_liquido_ir });
+
+    const remuneracao_liquida_ir_fase_beneficio =
+      formatDataRemuneracaoLiquidaIRFaseBeneficio({
+        contribuicao_beneficio_RPPS,
+        ir_fase_beneficio,
+        beneficio_rpps,
+        data,
+      });
+
+    setTable2((prev) => ({
+      ...prev,
+      beneficio_rpps,
+      contribuicao_beneficio_RPPS,
+      saldo_liquido_ir,
+      ir_fase_beneficio,
+      remuneracao_liquida_ir_fase_beneficio,
+    }));
+
+    //
+
     setTimeout(() => {
       setIsLoad(false);
     }, 1200);
@@ -249,7 +246,7 @@ export const useHome = () => {
 
   function resetForm() {
     reset();
-    setTable1(DefaulValueTable1);
+    setTable1(DefaultValueTable1);
     setValorTeto("");
     setRemuneracaoAtivaAtualText("");
   }
@@ -275,5 +272,6 @@ export const useHome = () => {
     resetForm,
     beneficioEspecialText,
     setBeneficioEspecialText,
+    table2,
   };
 };

@@ -1,13 +1,13 @@
-import { DefaulValueTable1 } from "./../../Components/Templates/HomeTemplate/useHome";
+import { DefaultValueTable1 } from "../../Data/DeafaultValue/Table1";
 import { IFormMainDTO } from "../../Types/formMain";
-import { ITypeFaseTable } from "../../Types/table";
+import { IFaseTableItem } from "../../Types/table";
 
 export function formatDataRemuneracaoFaseAtiva({
   data,
 }: {
   data: IFormMainDTO;
-}): ITypeFaseTable {
+}): IFaseTableItem {
   const rem_sem_migracao = data.remuneracao_ativa_atual;
 
-  return { ...DefaulValueTable1.remuneracao, sem_migracao: rem_sem_migracao };
+  return { ...DefaultValueTable1.remuneracao, sem_migracao: rem_sem_migracao };
 }

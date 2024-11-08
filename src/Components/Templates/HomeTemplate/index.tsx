@@ -91,6 +91,7 @@ export const HomeTemplate = () => {
     setRemuneracaoAtivaAtualText,
     beneficioEspecialText,
     setBeneficioEspecialText,
+    table2,
   } = useHome();
 
   return (
@@ -620,7 +621,9 @@ export const HomeTemplate = () => {
             <Table.WrapperItems>
               <TableItem columns="2fr 1fr 1fr 1.2fr 1.2fr">
                 <p>Benefício pago pelo RPPS</p>
-                <p>R$ 39.726,34</p>
+                <p>
+                  {maskMoney(table2.beneficio_rpps.sem_migracao) || "R$ 0,00"}
+                </p>
                 <p>R$ 39.726,34</p>
                 <p>R$ 39.726,34</p>
                 <p>R$ 39.726,34</p>
@@ -628,7 +631,10 @@ export const HomeTemplate = () => {
 
               <TableItem columns="2fr 1fr 1fr 1.2fr 1.2fr">
                 <p>Benefício Especial</p>
-                <p>R$ 39.726,34</p>
+                <p>
+                  {maskMoney(table2.beneficio_especial.sem_migracao) ||
+                    "R$ 0,00"}
+                </p>
                 <p>R$ 39.726,34</p>
                 <p>R$ 39.726,34</p>
                 <p>R$ 39.726,34</p>
@@ -636,7 +642,10 @@ export const HomeTemplate = () => {
 
               <TableItem columns="2fr 1fr 1fr 1.2fr 1.2fr">
                 <p>Saldo Acumulado RPC (Apenas com a Básica)</p>
-                <p>R$ 39.726,34</p>
+                <p>
+                  {maskMoney(table2.saldo_acumulado_rpc_basico.sem_migracao) ||
+                    "R$ 0,00"}
+                </p>
                 <p>R$ 39.726,34</p>
                 <p>R$ 39.726,34</p>
                 <p>R$ 39.726,34</p>
@@ -644,7 +653,10 @@ export const HomeTemplate = () => {
 
               <TableItem columns="2fr 1fr 1fr 1.2fr 1.2fr">
                 <p>Benefício RPC (Referente à Contribuição Básica)</p>
-                <p>R$ 39.726,34</p>
+                <p>
+                  {maskMoney(table2.beneficio_rpc_basico.sem_migracao) ||
+                    "R$ 0,00"}
+                </p>
                 <p>R$ 39.726,34</p>
                 <p>R$ 39.726,34</p>
                 <p>R$ 39.726,34</p>
@@ -652,22 +664,21 @@ export const HomeTemplate = () => {
 
               <TableItem columns="2fr 1fr 1fr 1.2fr 1.2fr">
                 <p>Saldo Acumulado RPC (Apenas com a Facultativa)</p>
-                <p>R$ 39.726,34</p>
+                <p>
+                  {maskMoney(
+                    table2.saldo_acumulado_rpc_facultativa.sem_migracao
+                  ) || "R$ 0,00"}
+                </p>
                 <p>R$ 39.726,34</p>
                 <p>R$ 39.726,34</p>
                 <p>R$ 39.726,34</p>
               </TableItem>
               <TableItem columns="2fr 1fr 1fr 1.2fr 1.2fr">
                 <p>Benefício RPC (Referente à Contribuição Facultativa)</p>
-                <p>R$ 39.726,34</p>
-                <p>R$ 39.726,34</p>
-                <p>R$ 39.726,34</p>
-                <p>R$ 39.726,34</p>
-              </TableItem>
-
-              <TableItem columns="2fr 1fr 1fr 1.2fr 1.2fr">
-                <p>(-) Contribuição sobre o benefício do RPPS</p>
-                <p>R$ 39.726,34</p>
+                <p>
+                  {maskMoney(table2.beneficio_rpc_facultativa.sem_migracao) ||
+                    "R$ 0,00"}
+                </p>
                 <p>R$ 39.726,34</p>
                 <p>R$ 39.726,34</p>
                 <p>R$ 39.726,34</p>
@@ -675,7 +686,10 @@ export const HomeTemplate = () => {
 
               <TableItem columns="2fr 1fr 1fr 1.2fr 1.2fr">
                 <p>(-) Contribuição sobre o benefício do RPPS</p>
-                <p>R$ 39.726,34</p>
+                <p>
+                  {maskMoney(table2.contribuicao_beneficio_RPPS.sem_migracao) ||
+                    "R$ 0,00"}
+                </p>
                 <p>R$ 39.726,34</p>
                 <p>R$ 39.726,34</p>
                 <p>R$ 39.726,34</p>
@@ -683,7 +697,9 @@ export const HomeTemplate = () => {
 
               <TableItem columns="2fr 1fr 1fr 1.2fr 1.2fr">
                 <p>(Salário Líquido após contribuição para IR</p>
-                <p>R$ 39.726,34</p>
+                <p>
+                  {maskMoney(table2.saldo_liquido_ir.sem_migracao) || "R$ 0,00"}
+                </p>
                 <p>R$ 39.726,34</p>
                 <p>R$ 39.726,34</p>
                 <p>R$ 39.726,34</p>
@@ -691,7 +707,10 @@ export const HomeTemplate = () => {
 
               <TableItem columns="2fr 1fr 1fr 1.2fr 1.2fr">
                 <p>(-) Imposto de Renda - tabela progressiva</p>
-                <p>R$ 39.726,34</p>
+                <p>
+                  {maskMoney(table2.ir_fase_beneficio.sem_migracao) ||
+                    "R$ 0,00"}
+                </p>
                 <p>R$ 39.726,34</p>
                 <p>R$ 39.726,34</p>
                 <p>R$ 39.726,34</p>
@@ -699,7 +718,11 @@ export const HomeTemplate = () => {
             </Table.WrapperItems>
             <Table.Footer columns="2fr 1fr 1fr 1.2fr 1.2fr">
               <p>Remuneração Líquida após IR</p>
-              <p>R$ 25.665,37</p>
+              <p>
+                {maskMoney(
+                  table2.remuneracao_liquida_ir_fase_beneficio.sem_migracao
+                ) || "R$ 0,00"}
+              </p>
               <p>R$ 28.907,32</p>
               <p>R$ 26.938,99</p>
               <p>R$ 25.665,37</p>
