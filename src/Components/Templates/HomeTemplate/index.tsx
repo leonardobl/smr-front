@@ -452,7 +452,10 @@ export const HomeTemplate = () => {
                   {maskMoney(table1?.contribuicao_RPPS?.sem_migracao) ||
                     "R$ 0,00"}
                 </p>
-                <p>R$ 39.726,34</p>
+                <p>
+                  {maskMoney(table1?.contribuicao_RPPS?.com_migracao) ||
+                    "R$ 0,00"}
+                </p>
                 <p>R$ 39.726,34</p>
                 <p>R$ 39.726,34</p>
               </TableItem>

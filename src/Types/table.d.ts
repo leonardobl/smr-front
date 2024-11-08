@@ -1,6 +1,6 @@
 export interface ITypeFaseTable {
   sem_migracao: number;
-  com_remuneracao: number;
+  com_migracao: number;
   com_migracao_rpc_basica: number;
   com_migracao_rpc_facultativa: number;
 }
