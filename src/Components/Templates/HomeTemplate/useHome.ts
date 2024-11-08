@@ -6,6 +6,11 @@ import { IFormMainDTO } from "../../../Types/formMain";
 import { SexoEnum } from "../../../Enum/sexo";
 import { maskNiver } from "../../../Util/masks";
 import { useContextSite } from "../../../Hooks/useContextSite";
+import { ITableFaseAtiva } from "../../../Types/table";
+import { formatDataRemuneracaoFaseAtiva } from "../../../Functions/FaseAtiva/Remuneracao";
+import { formatDataContribuicaoRPPSFaseAtiva } from "../../../Functions/FaseAtiva/ContribuicaoRPPS";
+import { formatDataContribuicaoRPCBasicaFaseAtiva } from "../../../Functions/FaseAtiva/ContribuicaoRPCBasica";
+import { formatDataSomaContribuicaoFaseAtiva } from "../../../Functions/FaseAtiva/SomaContribuicao";
 
 const schema = z.object({
   nome: z.string(),
@@ -71,24 +76,6 @@ const Taxas_Anual_Options = [
   label: item,
   value: item,
 }));
-
-interface ITypeFaseTable {
-  sem_migracao: number;
-  com_remuneracao: number;
-  com_migracao_rpc_basica: number;
-  com_migracao_rpc_facultativa: number;
-}
-
-interface ITableFaseAtiva {
-  remuneracao: ITypeFaseTable;
-  contribuicao_RPPS: ITypeFaseTable;
-  contribuicao_RPC_basica: ITypeFaseTable;
-  contribuicao_RPC_facultativa: ITypeFaseTable;
-  soma_contribuicao: ITypeFaseTable;
-  salario_liquido_contribuicao: ITypeFaseTable;
-  ir: ITypeFaseTable;
-  remuneracao_liquida_ir: ITypeFaseTable;
-}
 
 const defaulValue: ITableFaseAtiva = {
   remuneracao: {
@@ -187,69 +174,18 @@ export const useHome = () => {
 
     calculoSalarioRPC(data);
 
-    formatDataRemuneracaoFaseAtiva(data);
-    formatDataContribuicaoRPPSFaseAtiva(data);
-    formatDataContribuicaoRPCBasicaFaseAtiva(data);
-    formatDataSomaContribuicaoFaseAtiva(data);
+    formatDataRemuneracaoFaseAtiva({ data, setTable: setTable1 });
+    formatDataContribuicaoRPPSFaseAtiva({ data, setTable: setTable1 });
+    formatDataContribuicaoRPCBasicaFaseAtiva({ data, setTable: setTable1 });
+    formatDataSomaContribuicaoFaseAtiva({
+      data,
+      setTable: setTable1,
+      table: table1,
+    });
 
     setTimeout(() => {
       setIsLoad(false);
     }, 1500);
-  }
-
-  function formatDataRemuneracaoFaseAtiva(data: IFormMainDTO) {
-    const rem_sem_migracao = data.remuneracao_ativa_atual;
-
-    setTable1((prev) => ({
-      ...prev,
-      remuneracao: {
-        ...prev.remuneracao,
-        sem_migracao: rem_sem_migracao,
-      },
-    }));
-  }
-
-  function formatDataContribuicaoRPPSFaseAtiva(data: IFormMainDTO) {
-    console.log(data);
-
-    const cont_sem_migracao =
-      (data.remuneracao_ativa_atual * data.aliquota_contribuicao_rpps) / 100;
-
-    setTable1((prev) => ({
-      ...prev,
-      contribuicao_RPPS: {
-        ...prev.contribuicao_RPPS,
-        sem_migracao: cont_sem_migracao,
-      },
-    }));
-  }
-
-  function formatDataContribuicaoRPCBasicaFaseAtiva(data: IFormMainDTO) {
-    console.log(data);
-
-    setTable1((prev) => ({
-      ...prev,
-      contribuicao_RPC_basica: {
-        ...prev.contribuicao_RPC_basica,
-      },
-    }));
-  }
-
-  function formatDataSomaContribuicaoFaseAtiva(data: IFormMainDTO) {
-    console.log(data);
-
-    const soma_sem_migracao =
-      table1.contribuicao_RPPS.sem_migracao +
-      table1.contribuicao_RPC_basica.sem_migracao +
-      table1.contribuicao_RPC_facultativa.sem_migracao;
-
-    setTable1((prev) => ({
-      ...prev,
-      soma_contribuicao: {
-        ...prev.soma_contribuicao,
-        sem_migracao: soma_sem_migracao,
-      },
-    }));
   }
 
   function printPage() {
