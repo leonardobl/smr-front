@@ -10,21 +10,24 @@ import { ITableFaseAtiva } from "../../../Types/table";
 import { formatDataRemuneracaoFaseAtiva } from "../../../Functions/FaseAtiva/Remuneracao";
 import { formatDataContribuicaoRPPSFaseAtiva } from "../../../Functions/FaseAtiva/ContribuicaoRPPS";
 import { formatDataContribuicaoRPCBasicaFaseAtiva } from "../../../Functions/FaseAtiva/ContribuicaoRPCBasica";
+import { formatDataContribuicaoRPCBasicaFacultativaFaseAtiva } from "../../../Functions/FaseAtiva/ContribuicaoRPCBasicaFacultativa";
 import { formatDataSomaContribuicaoFaseAtiva } from "../../../Functions/FaseAtiva/SomaContribuicao";
+import { formatDataSalarioLiquidoFaseAtiva } from "../../../Functions/FaseAtiva/SalarioLiquido";
+import { IrFaseAtiva } from "../../../Functions/FaseAtiva/Ir";
 
 const schema = z.object({
   nome: z.string(),
   data_nascimento: z.string().min(10),
   sexo: z.string(),
-  remuneracao_ativa_atual: z.number(),
+  remuneracao_ativa_atual: z.number().gt(0),
   beneficio_especial: z.number(),
   prazo_recebimento_beneficio_rpc: z.string(),
   idade_ingresso_ente_federativo: z.number(),
   idade_prevista_aposentadoria: z.number(),
   taxa_juros_anual: z.string(),
-  aliquota_contribuicao_rpps: z.number(),
+  aliquota_contribuicao_rpps: z.number().gt(0),
   aliquota_contribuicao_rpc: z.number(),
-  valor_teto_rgps: z.number(),
+  valor_teto_rgps: z.number().gt(0),
   salario_contribuicao_rpc: z.number(),
   indice_infl: z.number(),
   indice_reajuste_beneficio_rpc: z.number(),
@@ -77,7 +80,7 @@ const Taxas_Anual_Options = [
   value: item,
 }));
 
-const defaulValue: ITableFaseAtiva = {
+export const DefaulValueTable1: ITableFaseAtiva = {
   remuneracao: {
     com_migracao_rpc_basica: 0,
     com_migracao_rpc_facultativa: 0,
@@ -134,7 +137,8 @@ export const useHome = () => {
   const [valorTeto, setValorTeto] = useState("");
   const [remuneracaoAtivaAtualText, setRemuneracaoAtivaAtualText] =
     useState("");
-  const [table1, setTable1] = useState<ITableFaseAtiva>(defaulValue);
+  const [beneficioEspecialText, setBeneficioEspecialText] = useState("");
+  const [table1, setTable1] = useState<ITableFaseAtiva>(DefaulValueTable1);
 
   const {
     control,
@@ -170,22 +174,53 @@ export const useHome = () => {
 
   function getData(data: IFormMainDTO) {
     setIsLoad(true);
-    console.log(data);
 
     calculoSalarioRPC(data);
 
-    formatDataRemuneracaoFaseAtiva({ data, setTable: setTable1 });
-    formatDataContribuicaoRPPSFaseAtiva({ data, setTable: setTable1 });
-    formatDataContribuicaoRPCBasicaFaseAtiva({ data, setTable: setTable1 });
-    formatDataSomaContribuicaoFaseAtiva({
+    // FASE ATIVA SEM MIGRAÇÃO
+
+    const remuneracao = formatDataRemuneracaoFaseAtiva({ data });
+    const contribuicao_RPPS = formatDataContribuicaoRPPSFaseAtiva({
+      data,
+    });
+    const contribuicao_RPC_basica = formatDataContribuicaoRPCBasicaFaseAtiva({
+      data,
+    });
+
+    const contribuicao_RPC_facultativa =
+      formatDataContribuicaoRPCBasicaFacultativaFaseAtiva({ data });
+    const soma_contribuicao = formatDataSomaContribuicaoFaseAtiva({
+      data,
+      contribuicao_RPC_basica,
+      contribuicao_RPC_facultativa,
+      contribuicao_RPPS,
+    });
+
+    const salario_liquido_contribuicao = formatDataSalarioLiquidoFaseAtiva({
+      data,
+      soma_contribuicao,
+      remuneracao,
+    });
+    IrFaseAtiva({
       data,
       setTable: setTable1,
       table: table1,
     });
 
+    //
+
+    setTable1((prev) => ({
+      ...prev,
+      remuneracao,
+      contribuicao_RPPS,
+      contribuicao_RPC_basica,
+      soma_contribuicao,
+      salario_liquido_contribuicao,
+    }));
+
     setTimeout(() => {
       setIsLoad(false);
-    }, 1500);
+    }, 1200);
   }
 
   function printPage() {
@@ -205,7 +240,7 @@ export const useHome = () => {
 
   function resetForm() {
     reset();
-    setTable1(defaulValue);
+    setTable1(DefaulValueTable1);
     setValorTeto("");
     setRemuneracaoAtivaAtualText("");
   }
@@ -229,5 +264,7 @@ export const useHome = () => {
     remuneracaoAtivaAtualText,
     setRemuneracaoAtivaAtualText,
     resetForm,
+    beneficioEspecialText,
+    setBeneficioEspecialText,
   };
 };

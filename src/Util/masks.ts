@@ -39,7 +39,7 @@ export function maskMoney(e: number) {
     style: "currency",
     currency: "BRL",
     minimumFractionDigits: 2,
-    maximumFractionDigits: 3,
+    maximumFractionDigits: 2,
   };
   const formatNumber = new Intl.NumberFormat("pt-BR", options);
   return formatNumber.format(e);

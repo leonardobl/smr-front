@@ -2,12 +2,11 @@ import { DefaulValueTable1 } from "./../../Components/Templates/HomeTemplate/use
 import { IFormMainDTO } from "../../Types/formMain";
 import { ITypeFaseTable } from "../../Types/table";
 
-export function formatDataRemuneracaoFaseAtiva({
+export function formatDataContribuicaoRPCBasicaFacultativaFaseAtiva({
   data,
 }: {
   data: IFormMainDTO;
 }): ITypeFaseTable {
-  const rem_sem_migracao = data.remuneracao_ativa_atual;
-
-  return { ...DefaulValueTable1.remuneracao, sem_migracao: rem_sem_migracao };
+  console.log("data", data);
+  return { ...DefaulValueTable1.contribuicao_RPC_facultativa };
 }
