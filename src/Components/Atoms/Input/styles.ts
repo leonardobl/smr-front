@@ -106,7 +106,9 @@ export const CustomInput = styled.input<IInputProps>`
   ${(props) => props.iconleft && `padding-left: 48px;`}
   ${(props) => props.iconright && `padding-right: 48px;`}
 
-
+  &[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
 
   &:focus {
     border-color: #0271ff;

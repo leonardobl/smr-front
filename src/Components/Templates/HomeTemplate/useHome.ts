@@ -1,22 +1,23 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { IFormMainDTO } from "../../../Types/formMain";
 import { SexoEnum } from "../../../Enum/sexo";
+import { maskNiver } from "../../../Util/masks";
 
 const schema = z.object({
-  nome: z.string().min(1),
-  data_nascimento: z.string(),
+  nome: z.string(),
+  data_nascimento: z.string().min(10),
   sexo: z.string(),
   remuneracao_ativa_atual: z.number(),
   beneficio_especial: z.number(),
   prazo_recebimento_beneficio_rpc: z.string(),
   idade_ingresso_ente_federativo: z.number(),
   idade_prevista_aposentadoria: z.number(),
-  taxa_juros_anual: z.number(),
+  taxa_juros_anual: z.string(),
   aliquota_contribuicao_rpps: z.number(),
-  taxa_contribuicao_rpc: z.number(),
+  aliquota_contribuicao_rpc: z.number(),
   valor_teto_rgps: z.number(),
   salario_contribuicao_rpc: z.number(),
   indice_infl: z.number(),
@@ -25,17 +26,12 @@ const schema = z.object({
   indice_reajuste_paridade: z.number(),
 });
 
-const PrazosOptions = [
-  "5 Anos",
-  "10 Anos",
-  "15 Anos",
-  "20 Anos",
-  "25 Anos",
-  "Vitalício",
-].map((item) => ({
-  label: item,
-  value: item,
-}));
+const PrazosOptions = ["5", "10", "15", "20", "25", "Vitalício"].map(
+  (item) => ({
+    label: !isNaN(+item) ? `${item} Anos` : item,
+    value: item,
+  })
+);
 
 const Taxas_Anual_Options = [
   "0,50%",
@@ -75,14 +71,88 @@ const Taxas_Anual_Options = [
   value: item,
 }));
 
+interface ITypeFaseTable {
+  sem_migracao: number;
+  com_remuneracao: number;
+  com_migracao_rpc_basica: number;
+  com_migracao_rpc_facultativa: number;
+}
+
+interface ITableFaseAtiva {
+  remuneracao: ITypeFaseTable;
+  contribuicao_RPPS: ITypeFaseTable;
+  contribuicao_RPC_basica: ITypeFaseTable;
+  contribuicao_RPC_facultativa: ITypeFaseTable;
+  soma_contribuicao: ITypeFaseTable;
+  salario_liquido_contribuicao: ITypeFaseTable;
+  ir: ITypeFaseTable;
+  remuneracao_liquida_ir: ITypeFaseTable;
+}
+
+const defaulValue: ITableFaseAtiva = {
+  remuneracao: {
+    com_migracao_rpc_basica: 0,
+    com_migracao_rpc_facultativa: 0,
+    com_remuneracao: 0,
+    sem_migracao: 0,
+  },
+  contribuicao_RPC_basica: {
+    com_migracao_rpc_basica: 0,
+    com_migracao_rpc_facultativa: 0,
+    com_remuneracao: 0,
+    sem_migracao: 0,
+  },
+  contribuicao_RPC_facultativa: {
+    com_migracao_rpc_basica: 0,
+    com_migracao_rpc_facultativa: 0,
+    com_remuneracao: 0,
+    sem_migracao: 0,
+  },
+  contribuicao_RPPS: {
+    com_migracao_rpc_basica: 0,
+    com_migracao_rpc_facultativa: 0,
+    com_remuneracao: 0,
+    sem_migracao: 0,
+  },
+  ir: {
+    com_migracao_rpc_basica: 0,
+    com_migracao_rpc_facultativa: 0,
+    com_remuneracao: 0,
+    sem_migracao: 0,
+  },
+  remuneracao_liquida_ir: {
+    com_migracao_rpc_basica: 0,
+    com_migracao_rpc_facultativa: 0,
+    com_remuneracao: 0,
+    sem_migracao: 0,
+  },
+  salario_liquido_contribuicao: {
+    com_migracao_rpc_basica: 0,
+    com_migracao_rpc_facultativa: 0,
+    com_remuneracao: 0,
+    sem_migracao: 0,
+  },
+  soma_contribuicao: {
+    com_migracao_rpc_basica: 0,
+    com_migracao_rpc_facultativa: 0,
+    com_remuneracao: 0,
+    sem_migracao: 0,
+  },
+};
+
 export const useHome = () => {
   const [formNumber, setFormNumber] = useState(1);
+  const [valorTeto, setValorTeto] = useState("");
+  // const [resultCalculoRPC, setResultCalculoRPC] = useState(0);
+  const [table1, setTable1] = useState<ITableFaseAtiva>(defaulValue);
 
   const {
     control,
     register,
     reset,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm<IFormMainDTO>({
     defaultValues: {
@@ -110,11 +180,30 @@ export const useHome = () => {
 
   function getData(data: IFormMainDTO) {
     console.log(data);
+
+    calculoSalarioRPC(data);
+
+    // const result =
+    //   (data.remuneracao_ativa_atual * data.aliquota_contribuicao_rpps) / 100;
+
+    setTable1(defaulValue);
   }
 
   function printPage() {
     window.print();
   }
+
+  function calculoSalarioRPC(data: IFormMainDTO) {
+    const salario = data.remuneracao_ativa_atual - data.valor_teto_rgps;
+    setValue("salario_contribuicao_rpc", salario);
+    // setResultCalculoRPC(result);
+  }
+
+  useEffect(() => {
+    if (watch("data_nascimento")?.length) {
+      setValue("data_nascimento", maskNiver(watch("data_nascimento")));
+    }
+  }, [watch("data_nascimento")]);
 
   return {
     formNumber,
@@ -129,5 +218,9 @@ export const useHome = () => {
     printPage,
     PrazosOptions,
     Taxas_Anual_Options,
+    setValorTeto,
+    valorTeto,
+    watch,
+    table1,
   };
 };

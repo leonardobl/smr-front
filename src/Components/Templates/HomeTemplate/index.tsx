@@ -22,6 +22,8 @@ import { InputMoney } from "../../Atoms/InputMoney";
 import { SexoEnum } from "../../../Enum/sexo";
 import { InputRadio } from "../../Atoms/InputRadio";
 import { SimpleSelect } from "../../Atoms/SimpleSelect";
+import { useEffect } from "react";
+import { maskMoney } from "../../../Util/masks";
 
 const dataLinear = [
   {
@@ -82,7 +84,17 @@ export const HomeTemplate = () => {
     getData,
     PrazosOptions,
     Taxas_Anual_Options,
+    setValorTeto,
+    valorTeto,
+    watch,
+    table1,
   } = useHome();
+
+  useEffect(() => {
+    if (errors) {
+      console.log(errors);
+    }
+  }, [errors]);
 
   return (
     <PageTemplate>
@@ -97,10 +109,9 @@ export const HomeTemplate = () => {
               <S.FormBasic>
                 <div>
                   <Input
-                    error={!!errors?.nome}
                     {...register("nome")}
+                    error={!!errors?.nome}
                     label="Nome"
-                    required
                     placeholder="Digite seu nome"
                   />
                 </div>
@@ -108,7 +119,6 @@ export const HomeTemplate = () => {
                   <Input
                     {...register("data_nascimento")}
                     error={!!errors?.data_nascimento}
-                    required
                     label="Data de nascimento"
                     placeholder="00/00/0000"
                   />
@@ -123,7 +133,6 @@ export const HomeTemplate = () => {
                         key={Math.random()}
                         render={({ field: { onChange, value } }) => (
                           <InputRadio
-                            required
                             key={Math.random()}
                             label={item}
                             name="sexo"
@@ -145,7 +154,7 @@ export const HomeTemplate = () => {
                     name="remuneracao_ativa_atual"
                     render={({ field: { onChange, value } }) => (
                       <InputMoney
-                        required
+                        error={!!errors?.remuneracao_ativa_atual}
                         value={value}
                         placeholder="R$ 0,00"
                         label="Remuneração ativa atual"
@@ -164,6 +173,7 @@ export const HomeTemplate = () => {
                     name="beneficio_especial"
                     render={({ field: { onChange, value } }) => (
                       <InputMoney
+                        error={!!errors?.beneficio_especial}
                         placeholder="R$ 0,00"
                         value={value}
                         label="Benefício Especial"
@@ -178,21 +188,11 @@ export const HomeTemplate = () => {
                 </div>
 
                 <div>
-                  <Controller
-                    control={control}
+                  <Input
+                    value={maskMoney(watch("valor_teto_rgps") || 0)}
                     disabled
-                    name="valor_teto_rgps"
-                    render={({ field: { onChange, value } }) => (
-                      <InputMoney
-                        value={value}
-                        label="Valor do teto do RGPS"
-                        onValueChange={(value, _name, values) => {
-                          console.log("value", value);
-                          console.log("values", values);
-                          onChange(values?.float);
-                        }}
-                      />
-                    )}
+                    placeholder="R$ 0,00"
+                    label="Valor do teto do RGPS"
                   />
                 </div>
 
@@ -202,7 +202,10 @@ export const HomeTemplate = () => {
                     name="salario_contribuicao_rpc"
                     render={({ field: { onChange, value } }) => (
                       <InputMoney
+                        error={!!errors?.salario_contribuicao_rpc}
                         value={value}
+                        disabled
+                        placeholder="R$ 0,00"
                         label="Salário de contribuição RPC"
                         onValueChange={(value, _name, values) => {
                           console.log("value", value);
@@ -220,6 +223,7 @@ export const HomeTemplate = () => {
                     name="prazo_recebimento_beneficio_rpc"
                     render={({ field: { value, onChange } }) => (
                       <SimpleSelect
+                        error={!!errors?.prazo_recebimento_beneficio_rpc}
                         options={PrazosOptions}
                         label="Prazo de recebimento do benefício no RPC"
                         placeholder={"Selecione um prazo"}
@@ -235,6 +239,7 @@ export const HomeTemplate = () => {
                   <Input
                     {...register("idade_ingresso_ente_federativo")}
                     type="number"
+                    error={!!errors?.idade_ingresso_ente_federativo}
                     label="Idade de ingresso Ente Federativo"
                     placeholder="30"
                   />
@@ -243,6 +248,7 @@ export const HomeTemplate = () => {
                   <Input
                     {...register("idade_prevista_aposentadoria")}
                     type="number"
+                    error={!!errors?.idade_prevista_aposentadoria}
                     label="Idade prevista para aposentadoria"
                     placeholder="60"
                   />
@@ -258,6 +264,7 @@ export const HomeTemplate = () => {
                     name="taxa_juros_anual"
                     render={({ field: { onChange, value } }) => (
                       <SimpleSelect
+                        error={!!errors?.taxa_juros_anual}
                         label="Taxa de juros anual"
                         placeholder={"Selecione uma taxa"}
                         options={Taxas_Anual_Options}
@@ -272,15 +279,21 @@ export const HomeTemplate = () => {
                 </div>
                 <div>
                   <Input
-                    {...register("aliquota_contribuicao_rpps")}
+                    {...register("aliquota_contribuicao_rpps", {
+                      valueAsNumber: true,
+                    })}
+                    type={"number"}
+                    error={!!errors?.aliquota_contribuicao_rpps}
                     label="Alíquota de contribuição RPPS"
-                    type="number"
                   />
                 </div>
                 <div>
                   <Input
+                    {...register("aliquota_contribuicao_rpc", {
+                      valueAsNumber: true,
+                    })}
                     type="number"
-                    {...register("aliquota_contribuicao_rpc")}
+                    error={!!errors?.aliquota_contribuicao_rpc}
                     label="Alíquota de contribuição RPC"
                   />
                 </div>
@@ -288,13 +301,14 @@ export const HomeTemplate = () => {
                   <Controller
                     control={control}
                     name="valor_teto_rgps"
-                    render={({ field: { onChange, value } }) => (
+                    render={({ field: { onChange } }) => (
                       <InputMoney
-                        value={value}
+                        value={valorTeto}
+                        error={!!errors?.valor_teto_rgps}
+                        placeholder="R$ 0,00"
                         label="Valor do teto do RGPS"
                         onValueChange={(value, _name, values) => {
-                          console.log("value", value);
-                          console.log("values", values);
+                          setValorTeto(value || "");
                           onChange(values?.float);
                         }}
                       />
@@ -304,29 +318,39 @@ export const HomeTemplate = () => {
 
                 <div>
                   <Input
-                    {...register("indice_infl")}
+                    {...register("indice_infl", { valueAsNumber: true })}
                     label="Índice de inflação"
+                    error={!!errors?.indice_infl}
                     type="number"
                   />
                 </div>
                 <div>
                   <Input
-                    {...register("indice_reajuste_beneficio_rpc")}
+                    {...register("indice_reajuste_beneficio_rpc", {
+                      valueAsNumber: true,
+                    })}
                     type="number"
+                    error={!!errors?.indice_reajuste_beneficio_rpc}
                     label="Índice de reajuste do benefício RPC"
                   />
                 </div>
                 <div>
                   <Input
-                    {...register("indice_reajuste_beneficio_rpps")}
+                    {...register("indice_reajuste_beneficio_rpps", {
+                      valueAsNumber: true,
+                    })}
                     type="number"
+                    error={!!errors?.indice_reajuste_beneficio_rpps}
                     label="Índice de reajuste do benefício RPPS"
                   />
                 </div>
                 <div>
                   <Input
-                    {...register("indice_reajuste_paridade")}
+                    {...register("indice_reajuste_paridade", {
+                      valueAsNumber: true,
+                    })}
                     type="number"
+                    error={!!errors?.indice_reajuste_paridade}
                     label="Índice de reajuste paridade"
                   />
                 </div>
@@ -414,15 +438,26 @@ export const HomeTemplate = () => {
             <Table.WrapperItems>
               <TableItem columns="2fr 1fr 1fr 1.2fr 1.2fr">
                 <p>Remuneração</p>
-                <p>R$ 39.726,34</p>
-                <p>R$ 39.726,34</p>
-                <p>R$ 39.726,34</p>
-                <p>R$ 39.726,34</p>
+                <p>
+                  {maskMoney(table1?.remuneracao?.sem_migracao) || "R$ 0,00"}
+                </p>
+                <p>
+                  {maskMoney(table1?.remuneracao?.sem_migracao) || "R$ 0,00"}
+                </p>
+                <p>
+                  {maskMoney(table1?.remuneracao?.sem_migracao) || "R$ 0,00"}
+                </p>
+                <p>
+                  {maskMoney(table1?.remuneracao?.sem_migracao) || "R$ 0,00"}
+                </p>
               </TableItem>
 
               <TableItem columns="2fr 1fr 1fr 1.2fr 1.2fr">
                 <p>(-) Contribuição para RPPS</p>
-                <p>R$ 39.726,34</p>
+                <p>
+                  {maskMoney(table1?.contribuicao_RPPS?.sem_migracao) ||
+                    "R$ 0,00"}
+                </p>
                 <p>R$ 39.726,34</p>
                 <p>R$ 39.726,34</p>
                 <p>R$ 39.726,34</p>
@@ -430,7 +465,7 @@ export const HomeTemplate = () => {
 
               <TableItem columns="2fr 1fr 1fr 1.2fr 1.2fr">
                 <p>(-) Contribuição para o RPC (Básica)</p>
-                <p>R$ 39.726,34</p>
+                <p>R$ 0,00</p>
                 <p>R$ 39.726,34</p>
                 <p>R$ 39.726,34</p>
                 <p>R$ 39.726,34</p>
@@ -438,7 +473,7 @@ export const HomeTemplate = () => {
 
               <TableItem columns="2fr 1fr 1fr 1.2fr 1.2fr">
                 <p>(-) Contribuição para o RPC (Básica + Facultativa)</p>
-                <p>R$ 39.726,34</p>
+                <p>R$ 0,00</p>
                 <p>R$ 39.726,34</p>
                 <p>R$ 39.726,34</p>
                 <p>R$ 39.726,34</p>
@@ -446,14 +481,22 @@ export const HomeTemplate = () => {
 
               <TableItem columns="2fr 1fr 1fr 1.2fr 1.2fr">
                 <p>(-) Soma das Contribuições</p>
-                <p>R$ 39.726,34</p>
+                <p>
+                  {maskMoney(
+                    table1.contribuicao_RPPS.sem_migracao +
+                      table1.contribuicao_RPC_basica.sem_migracao +
+                      table1.contribuicao_RPC_facultativa.sem_migracao
+                  ) || "R$ 0,00"}
+                </p>
                 <p>R$ 39.726,34</p>
                 <p>R$ 39.726,34</p>
                 <p>R$ 39.726,34</p>
               </TableItem>
               <TableItem columns="2fr 1fr 1fr 1.2fr 1.2fr">
                 <p>Salário Líquido após contribuição</p>
-                <p>R$ 39.726,34</p>
+                <p>
+                  {maskMoney(watch("remuneracao_ativa_atual")) || "R$ 0,00"}
+                </p>
                 <p>R$ 39.726,34</p>
                 <p>R$ 39.726,34</p>
                 <p>R$ 39.726,34</p>
